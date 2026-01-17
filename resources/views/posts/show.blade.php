@@ -1,0 +1,383 @@
+@extends('layout')
+
+@section('title', $post->title . ' - رواق العلوم الشرعية')
+
+@section('content')
+<!-- رأس المنشور -->
+<section class="islamic-gradient py-8 md:py-12">
+    <div class="max-w-4xl mx-auto px-4">
+        <!-- مسار التنقل -->
+        <nav class="mb-6">
+            <ol class="flex items-center gap-2 text-sm text-primary-200">
+                <li>
+                    <a href="{{ route('home') }}" class="hover:text-white transition-colors">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+                <li><i class="fas fa-chevron-left text-xs"></i></li>
+                <li>
+                    <a href="{{ route('posts.section', $post->idsection) }}" class="hover:text-white transition-colors">
+                        {{ $post->section->name }}
+                    </a>
+                </li>
+                <li><i class="fas fa-chevron-left text-xs"></i></li>
+                <li class="text-gold-300 truncate max-w-[200px]">{{ $post->title }}</li>
+            </ol>
+        </nav>
+        
+        <!-- معلومات المنشور -->
+        <div class="flex flex-wrap items-center gap-4 mb-4">
+            <span class="bg-gold-500 text-primary-900 px-4 py-1 rounded-full text-sm font-medium">
+                {{ $post->section->name }}
+            </span>
+            <span class="text-primary-200 text-sm flex items-center gap-1">
+                <i class="fas fa-calendar-alt"></i>
+                {{ $post->created_at->format('Y/m/d') }}
+            </span>
+        </div>
+        
+        <!-- عنوان المنشور -->
+        <h1 class="text-2xl md:text-4xl font-bold text-white leading-relaxed">
+            {{ $post->title }}
+        </h1>
+    </div>
+</section>
+
+<!-- المحتوى الرئيسي -->
+<section class="py-8 md:py-12 bg-cream-100">
+    <div class="max-w-4xl mx-auto px-4">
+        <article class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <!-- صورة المنشور -->
+            @if($post->image)
+                <div class="relative h-64 md:h-96">
+                    <img src="{{ $post->image }}" 
+                         alt="{{ $post->title }}" 
+                         class="w-full h-full object-cover">
+                </div>
+            @endif
+            
+            <!-- محتوى المنشور -->
+            <div class="p-6 md:p-10">
+                
+                @auth
+                    @if(Auth::user()->usertype == 'admin' || Auth::user()->usertype == 'admin2')
+                        <!-- أزرار التحكم للمشرفين -->
+                        <div class="mb-6 flex gap-3">
+                            <a href="{{ route('admin.posts.edit', $post->id) }}" 
+                               class="inline-flex items-center gap-2 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
+                                <i class="fas fa-edit"></i>
+                                <span>تعديل</span>
+                            </a>
+                            <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" class="inline"
+                                  onsubmit="return confirm('هل أنت متأكد من حذف هذا المنشور؟')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" 
+                                        class="inline-flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                    <span>حذف</span>
+                                </button>
+                            </form>
+                        </div>
+                    @endif
+                @endauth
+                
+                <!-- النص الرئيسي -->
+                @if($post->body)
+                    <div class="prose prose-lg max-w-none text-brown-700 leading-loose">
+                        {!! nl2br(e($post->body)) !!}
+                    </div>
+                @endif
+                
+                <!-- الفيديو -->
+                @if($post->link_video)
+                    <div class="mt-8">
+                        <h3 class="text-lg font-bold text-brown-700 mb-4 flex items-center gap-2">
+                            <i class="fas fa-video text-primary-500"></i>
+                            فيديو
+                        </h3>
+                        <div class="relative rounded-xl overflow-hidden" style="padding-top: 56.25%;">
+                            <iframe src="https://www.youtube.com/embed/{{ $post->link_video }}" 
+                                    class="absolute inset-0 w-full h-full"
+                                    frameborder="0" 
+                                    allowfullscreen></iframe>
+                        </div>
+                    </div>
+                @elseif($post->fileVid)
+                    <div class="mt-8">
+                        <h3 class="text-lg font-bold text-brown-700 mb-4 flex items-center gap-2">
+                            <i class="fas fa-video text-primary-500"></i>
+                            فيديو
+                        </h3>
+                        <video controls class="w-full rounded-xl">
+                            <source src="{{ asset('uploads/videos/' . $post->fileVid) }}" type="video/mp4">
+                        </video>
+                    </div>
+                @endif
+                
+                <!-- الصوت -->
+                @if($post->fileAud)
+                    <div class="mt-8">
+                        <h3 class="text-lg font-bold text-brown-700 mb-4 flex items-center gap-2">
+                            <i class="fas fa-headphones text-primary-500"></i>
+                            صوتية
+                        </h3>
+                        <audio controls class="w-full">
+                            <source src="{{ asset('uploads/audio/' . $post->fileAud) }}" type="audio/mpeg">
+                        </audio>
+                    </div>
+                @endif
+                
+                <!-- الكتاب -->
+                @if($post->books)
+                    <div class="mt-8">
+                        <h3 class="text-lg font-bold text-brown-700 mb-4 flex items-center gap-2">
+                            <i class="fas fa-book text-primary-500"></i>
+                            تحميل الكتاب
+                        </h3>
+                        <a href="{{ asset('uploads/books/' . $post->books) }}" 
+                           download
+                           class="inline-flex items-center gap-3 bg-primary-500 text-white px-6 py-3 rounded-xl hover:bg-primary-600 transition-colors">
+                            <i class="fas fa-download"></i>
+                            <span>تحميل PDF</span>
+                        </a>
+                    </div>
+                @endif
+            </div>
+            
+            <!-- الإعجاب والتعليقات -->
+            <div class="px-6 md:px-10 py-6 bg-cream-50 border-t border-cream-200">
+                <div class="flex items-center justify-between">
+                    @auth
+                        <button type="button" 
+                                id="likeBtn"
+                                data-post-id="{{ $post->id }}"
+                                class="flex items-center gap-2 text-primary-600 hover:text-primary-700 transition-colors like-btn">
+                            <i class="fas fa-heart text-xl" id="likeIcon"></i>
+                            <span id="likesCount">{{ $post->likes()->count() }}</span> إعجاب
+                        </button>
+                    @else
+                        <div class="flex items-center gap-2 text-brown-400">
+                            <i class="fas fa-heart text-xl"></i>
+                            <span>{{ $post->likes()->count() }} إعجاب</span>
+                        </div>
+                    @endauth
+                    
+                    <div class="flex items-center gap-2 text-brown-400">
+                        <i class="fas fa-comments text-xl"></i>
+                        <span id="commentsCount">{{ $post->comments->count() }}</span> تعليق
+                    </div>
+                </div>
+            </div>
+        </article>
+        
+        <!-- قسم التعليقات -->
+        <div class="mt-8 bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="p-6 md:p-8">
+                <h3 class="text-xl font-bold text-brown-700 mb-6 flex items-center gap-2">
+                    <i class="fas fa-comments text-primary-500"></i>
+                    التعليقات (<span id="totalComments">{{ $post->comments->count() }}</span>)
+                </h3>
+                
+                <!-- نموذج إضافة تعليق -->
+                @auth
+                    <form id="commentForm" class="mb-8">
+                        @csrf
+                        <textarea name="comment" 
+                                  id="commentText"
+                                  rows="3" 
+                                  placeholder="اكتب تعليقك هنا..."
+                                  class="w-full rounded-xl border-cream-300 focus:border-primary-500 focus:ring focus:ring-primary-200 resize-none"
+                                  required></textarea>
+                        <button type="submit" 
+                                id="submitCommentBtn"
+                                class="mt-3 bg-primary-500 text-white px-6 py-2 rounded-xl hover:bg-primary-600 transition-colors">
+                            <span id="submitText">إرسال التعليق</span>
+                            <i class="fas fa-spinner fa-spin hidden" id="submitSpinner"></i>
+                        </button>
+                    </form>
+                @else
+                    <div class="mb-8 p-4 bg-cream-100 rounded-xl text-center">
+                        <p class="text-brown-500">
+                            <a href="{{ route('login') }}" class="text-primary-600 hover:underline">سجل دخولك</a>
+                            لإضافة تعليق
+                        </p>
+                    </div>
+                @endauth
+                
+                <!-- قائمة التعليقات -->
+                <div id="commentsList">
+                    @forelse($post->comments as $comment)
+                        <div class="border-b border-cream-200 pb-4 mb-4 last:border-0 last:mb-0 last:pb-0 comment-item">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-user text-primary-500"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="font-bold text-brown-700">{{ $comment->user->name ?? 'زائر' }}</span>
+                                        <span class="text-sm text-brown-400">{{ $comment->created_at->diffForHumans() }}</span>
+                                    </div>
+                                    <p class="text-brown-600 leading-relaxed">{{ $comment->comment }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-center text-brown-400 py-4" id="noCommentsMsg">لا توجد تعليقات بعد. كن أول من يعلق!</p>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+        
+        <!-- منشورات ذات صلة -->
+        @if($relatedPosts->count() > 0)
+            <div class="mt-12">
+                <h3 class="text-xl font-bold text-brown-700 mb-6">منشورات ذات صلة</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    @foreach($relatedPosts as $related)
+                        <a href="{{ route('posts.show', $related->id) }}" 
+                           class="bg-white rounded-xl overflow-hidden shadow-lg card-hover group">
+                            <div class="h-32 overflow-hidden">
+                                @if($related->image)
+                                    <img src="{{ $related->image }}" 
+                                         alt="{{ $related->title }}" 
+                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                @else
+                                    <div class="w-full h-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                                        <i class="fas {{ $post->section->icon }} text-3xl text-white/50"></i>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="p-4">
+                                <h4 class="font-bold text-brown-700 line-clamp-2 group-hover:text-primary-600 transition-colors">
+                                    {{ $related->title }}
+                                </h4>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+    </div>
+</section>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const postId = {{ $post->id }};
+    const csrfToken = '{{ csrf_token() }}';
+    
+    // إعجاب بدون تحديث الصفحة
+    const likeBtn = document.getElementById('likeBtn');
+    if (likeBtn) {
+        likeBtn.addEventListener('click', function() {
+            fetch(`/post/${postId}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('likesCount').textContent = data.total_likes;
+                    const likeIcon = document.getElementById('likeIcon');
+                    if (data.liked) {
+                        likeIcon.classList.add('text-red-500');
+                    } else {
+                        likeIcon.classList.remove('text-red-500');
+                    }
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    }
+    
+    // إضافة تعليق بدون تحديث الصفحة
+    const commentForm = document.getElementById('commentForm');
+    if (commentForm) {
+        commentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const commentText = document.getElementById('commentText');
+            const submitBtn = document.getElementById('submitCommentBtn');
+            const submitText = document.getElementById('submitText');
+            const submitSpinner = document.getElementById('submitSpinner');
+            
+            // تعطيل الزر أثناء الإرسال
+            submitBtn.disabled = true;
+            submitText.classList.add('hidden');
+            submitSpinner.classList.remove('hidden');
+            
+            fetch(`/post/${postId}/comment`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    comment: commentText.value
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // إخفاء رسالة "لا توجد تعليقات"
+                    const noCommentsMsg = document.getElementById('noCommentsMsg');
+                    if (noCommentsMsg) {
+                        noCommentsMsg.remove();
+                    }
+                    
+                    // إضافة التعليق الجديد في الأعلى
+                    const commentsList = document.getElementById('commentsList');
+                    const newComment = `
+                        <div class="border-b border-cream-200 pb-4 mb-4 comment-item" style="animation: fadeIn 0.3s ease-in-out;">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-user text-primary-500"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="font-bold text-brown-700">${data.comment.user_name}</span>
+                                        <span class="text-sm text-brown-400">${data.comment.created_at}</span>
+                                    </div>
+                                    <p class="text-brown-600 leading-relaxed">${data.comment.comment}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    commentsList.insertAdjacentHTML('afterbegin', newComment);
+                    
+                    // تحديث عدد التعليقات
+                    const commentsCount = document.getElementById('commentsCount');
+                    const totalComments = document.getElementById('totalComments');
+                    const currentCount = parseInt(commentsCount.textContent) + 1;
+                    commentsCount.textContent = currentCount;
+                    totalComments.textContent = currentCount;
+                    
+                    // مسح حقل النص
+                    commentText.value = '';
+                }
+            })
+            .catch(error => console.error('Error:', error))
+            .finally(() => {
+                // إعادة تفعيل الزر
+                submitBtn.disabled = false;
+                submitText.classList.remove('hidden');
+                submitSpinner.classList.add('hidden');
+            });
+        });
+    }
+});
+</script>
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+@endpush
+@endsection
