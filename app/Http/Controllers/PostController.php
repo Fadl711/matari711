@@ -173,10 +173,15 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+
+        // حذف التعليقات والإعجابات المرتبطة أولاً لتجنب خطأ القيود (Foreign Key Constraint)
+        $post->comments()->delete();
+        $post->likes()->delete();
+
         $post->delete();
 
         return redirect()->route('home')
-            ->with('success', 'تم حذف المنشور بنجاح');
+            ->with('success', 'تم حذف المنشور والتعليقات المرتبطة به بنجاح');
     }
 
     /**

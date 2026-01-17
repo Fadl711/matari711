@@ -59,4 +59,43 @@ class SectionController extends Controller
 
         return back()->with('success', 'تم إضافة القسم بنجاح');
     }
+
+    /**
+     * تحديث قسم
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $section = Section::findOrFail($id);
+        $section->update([
+            'section_Name' => $request->name,
+        ]);
+
+        return back()->with('success', 'تم تحديث اسم القسم بنجاح');
+    }
+
+    /**
+     * حذف قسم
+     */
+    public function destroy($id)
+    {
+        $section = Section::findOrFail($id);
+
+        // حذف جميع البيانات المرتبطة بالمنشورات التابعة للقسم
+        foreach ($section->posts as $post) {
+            $post->comments()->delete();
+            $post->likes()->delete();
+        }
+
+        // حذف جميع المنشورات المرتبطة بالقسم
+        $section->posts()->delete();
+
+        // ثم حذف القسم
+        $section->delete();
+
+        return back()->with('success', 'تم حذف القسم وجميع المنشورات العلمية والتعليقات المرتبطة به بنجاح');
+    }
 }

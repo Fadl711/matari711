@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'password' => 'qweasdzxc',
             'usertype'=>'admin'
         ]);
-        $names= ['المقالات','الكتب','الصوتيات','الفديوهات',];
+        $names= ['المقالات','الكتب','الصوتيات', 'الفيديوهات',];
         foreach($names as $name){
             Section::create([
                 'section_Name'=>$name,

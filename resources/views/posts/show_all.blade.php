@@ -70,10 +70,11 @@
 
             @foreach ($allPost as $item)
                 <!-- CARD 1 -->
-                <div class="rounded overflow-hidden shadow-lg flex flex-col">
+                <div class="rounded overflow-hidden shadow-lg flex flex-col h-full cursor-pointer hover:shadow-xl transition-shadow"
+                    onclick="window.location='{{ Route('posts.show', $item->id) }}'">
                     @Auth
                         @if (Auth::User()->usertype == 'admin')
-                            <div class="flex">
+                            <div class="flex p-2" onclick="event.stopPropagation()">
                                 <form class="" method="POST" action="{{ route('posts.destroy', $item->id) }}">
                                     @csrf
                                     @method('DELETE')
@@ -88,10 +89,15 @@
                     @endauth
                     <div class="relative">
                         <a href="{{ Route('posts.show', $item->id) }}">
-                            <img class="w-full h-40 border border-t-bro"
-                                src=" {{($item->imgart != null) ?  url('book/' . $item->imgart . '')
-                     : url('OSK.jpeg') }}"
-                                alt="Sunset in the mountains">
+                            @if ($item->imgart != null)
+                                <img class="w-full h-40 border border-t-bro object-cover"
+                                    src="{{ url('book/' . $item->imgart) }}" alt="{{ $item->titleart }}">
+                            @else
+                                <div
+                                    class="w-full h-40 bg-primary-600 flex items-center justify-center border border-t-bro">
+                                    <i class="fas fa-mosque text-white text-5xl opacity-50"></i>
+                                </div>
+                            @endif
                             <div
                                 class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 hover:bg-gray-900 hover:opacity-25">
                             </div>
@@ -107,7 +113,7 @@
                             {{ $item->titleart }}
                         </div>
                         <p class="text-gray-500 text-sm line-clamp-2">
-                            {{ $item->body }}
+                            {{ Str::limit(strip_tags($item->body), 120) }}
                         </p><span class="text-teal-600">قراءة المزيد</span>
                         </a>
                     </div>
@@ -126,7 +132,9 @@
                                     </g>
                                 </g>
                             </svg>
-                            <span class="mx-2"> {{ $item->created_at->diffForHumans() }}</span>
+                            <span class="mx-2">
+                                {{ $item->created_at->locale('ar')->diffForHumans() }}
+                            </span>
                         </span>
                         <span href="#"
                             class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">

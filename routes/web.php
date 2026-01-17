@@ -43,7 +43,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // إدارة الأقسام
     Route::get('/sections/create', [SectionController::class, 'create'])->name('sections.create');
     Route::post('/sections', [SectionController::class, 'store'])->name('sections.store');
-    
+    Route::put('/sections/{id}', [SectionController::class, 'update'])->name('sections.update');
+    Route::delete('/sections/{id}', [SectionController::class, 'destroy'])->name('sections.destroy');
+
     // إدارة المستخدمين
     Route::post('/user/{id}', function ($id, \Illuminate\Http\Request $request) {
         $user = \App\Models\User::findOrFail($id);
@@ -65,4 +67,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

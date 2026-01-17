@@ -42,17 +42,34 @@ class Section extends Model
      */
     public function getIconAttribute()
     {
-        $sectionName = $this->attributes['section_Name'] ?? '';
-        
+        $sectionName = trim($this->attributes['section_Name'] ?? '');
+
+        // محاولة إيجاد الاسم كما هو أو بدون "ال" التعريفية
+        $normalizedName = $sectionName;
+        if (str_starts_with($sectionName, 'ال')) {
+            $normalizedName = mb_substr($sectionName, 2);
+        }
+
         $icons = [
             'مقالات' => 'fa-file-alt',
+            'مقال' => 'fa-file-alt',
             'كتب' => 'fa-book',
+            'كتاب' => 'fa-book',
             'صوتيات' => 'fa-headphones',
+            'صوت' => 'fa-headphones',
             'فيديوهات' => 'fa-video',
+            'فيديو' => 'fa-video',
             'video' => 'fa-video',
             'فتاوى' => 'fa-question-circle',
+            'فتوى' => 'fa-question-circle',
+            'دروس' => 'fa-chalkboard-teacher',
+            'درس' => 'fa-chalkboard-teacher',
+            'خطب' => 'fa-microphone',
+            'خطبة' => 'fa-microphone',
+            'بحوث' => 'fa-file-signature',
+            'بحث' => 'fa-file-signature',
         ];
 
-        return $icons[$sectionName] ?? 'fa-folder';
+        return $icons[$sectionName] ?? ($icons[$normalizedName] ?? 'fa-folder');
     }
 }
