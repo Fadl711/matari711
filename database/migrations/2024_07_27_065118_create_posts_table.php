@@ -26,6 +26,8 @@ return new class extends Migration
             $table->foreignId('idsection');
             $table->integer('userid');
             $table->integer('teypsection');
+            $table->unsignedBigInteger('views')->default(0);
+
             $table->foreign('idsection')->references('id')->on('sections');
             $table->timestamps();
         });

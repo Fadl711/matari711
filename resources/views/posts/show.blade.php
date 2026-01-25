@@ -1,6 +1,18 @@
 @extends('layout')
 
-@section('title', $post->title . ' - رواق العلوم الشرعية')
+@section('title', $post->title)
+@section('meta_title', $post->title . ' - الشيخ الدكتور محمد المطري')
+@section('meta_description', Str::limit(strip_tags($post->body), 160))
+@section('meta_keywords', $post->section->name . '، الشيخ المطري، ' . str_replace(' ', '، ', $post->title))
+
+@section('og_title', $post->title)
+@section('og_description', Str::limit(strip_tags($post->body), 200))
+@section('og_image', $post->imgart ? asset('uploads/images/' . $post->imgart) : asset('R.png'))
+@section('og_type', 'article')
+
+@section('twitter_title', $post->title)
+@section('twitter_description', Str::limit(strip_tags($post->body), 200))
+@section('twitter_image', $post->imgart ? asset('uploads/images/' . $post->imgart) : asset('R.png'))
 
 @section('content')
     <!-- رأس المنشور -->
@@ -48,6 +60,38 @@
     <!-- المحتوى الرئيسي -->
     <section class="py-8 md:py-12 bg-cream-100">
         <div class="max-w-4xl mx-auto px-4">
+
+            <!-- أزرار المشاركة (جديد) -->
+            <div class="mb-6 flex flex-wrap items-center gap-2 justify-center md:justify-end">
+                <span class="text-brown-500 font-bold ml-2">مشاركة المنشور:</span>
+
+                <!-- WhatsApp -->
+                <a href="https://wa.me/?text={{ $post->title }}%0A{{ route('posts.show', $post->id) }}" target="_blank"
+                    class="bg-[#25D366] text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#128C7E] transition-all transform hover:scale-110 shadow-md">
+                    <i class="fab fa-whatsapp text-xl"></i>
+                </a>
+
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ route('posts.show', $post->id) }}" target="_blank"
+                    class="bg-[#1877F2] text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#166FE5] transition-all transform hover:scale-110 shadow-md">
+                    <i class="fab fa-facebook-f text-lg"></i>
+                </a>
+
+                <!-- Twitter / X -->
+                <a href="https://twitter.com/intent/tweet?text={{ $post->title }}&url={{ route('posts.show', $post->id) }}"
+                    target="_blank"
+                    class="bg-black text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-800 transition-all transform hover:scale-110 shadow-md">
+                    <i class="fab fa-x-twitter text-lg"></i>
+                </a>
+
+                <!-- Telegram -->
+                <a href="https://t.me/share/url?url={{ route('posts.show', $post->id) }}&text={{ $post->title }}"
+                    target="_blank"
+                    class="bg-[#0088cc] text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-[#007dbb] transition-all transform hover:scale-110 shadow-md">
+                    <i class="fab fa-telegram-plane text-xl pr-1"></i>
+                </a>
+            </div>
+
             <article class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <!-- صورة المنشور -->
                 @if ($post->image)
@@ -125,9 +169,16 @@
                                 <i class="fas fa-headphones text-primary-500"></i>
                                 صوتية
                             </h3>
-                            <audio controls class="w-full">
-                                <source src="{{ asset('uploads/audio/' . $post->fileAud) }}" type="audio/mpeg">
-                            </audio>
+                            <div class="flex flex-col gap-3">
+                                <audio controls class="w-full">
+                                    <source src="{{ asset('uploads/audio/' . $post->fileAud) }}" type="audio/mpeg">
+                                </audio>
+                                <a href="{{ asset('uploads/audio/' . $post->fileAud) }}" download
+                                    class="inline-flex items-center justify-center gap-2 bg-primary-100 text-primary-700 hover:bg-primary-200 transition-colors py-2 px-4 rounded-lg text-sm font-bold self-start">
+                                    <i class="fas fa-download"></i>
+                                    <span>تحميل المقطع الصوتي</span>
+                                </a>
+                            </div>
                         </div>
                     @endif
 
@@ -136,99 +187,18 @@
                         <div class="mt-8">
                             <h3 class="text-lg font-bold text-brown-700 mb-4 flex items-center gap-2">
                                 <i class="fas fa-book text-primary-500"></i>
-                                تحميل الكتاب
+                                الكتاب المرفق
                             </h3>
+
                             <a href="{{ asset('uploads/books/' . $post->books) }}" download
                                 class="inline-flex items-center gap-3 bg-primary-500 text-white px-6 py-3 rounded-xl hover:bg-primary-600 transition-colors">
                                 <i class="fas fa-download"></i>
-                                <span>تحميل PDF</span>
+                                <span>تحميل الكتاب (PDF)</span>
                             </a>
                         </div>
                     @endif
                 </div>
-
-                <!-- الإعجاب والتعليقات -->
-                <div class="px-6 md:px-10 py-6 bg-cream-50 border-t border-cream-200">
-                    <div class="flex items-center justify-between">
-                        @auth
-                            <button type="button" id="likeBtn" data-post-id="{{ $post->id }}"
-                                class="flex items-center gap-2 text-primary-600 hover:text-primary-700 transition-colors like-btn">
-                                <i class="fas fa-heart text-xl" id="likeIcon"></i>
-                                <span id="likesCount">{{ $post->likes()->count() }}</span> إعجاب
-                            </button>
-                        @else
-                            <div class="flex items-center gap-2 text-brown-400">
-                                <i class="fas fa-heart text-xl"></i>
-                                <span>{{ $post->likes()->count() }} إعجاب</span>
-                            </div>
-                        @endauth
-
-                        <div class="flex items-center gap-2 text-brown-400">
-                            <i class="fas fa-comments text-xl"></i>
-                            <span id="commentsCount">{{ $post->comments->count() }}</span> تعليق
-                        </div>
-                    </div>
-                </div>
             </article>
-
-            <!-- قسم التعليقات -->
-            <div class="mt-8 bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div class="p-6 md:p-8">
-                    <h3 class="text-xl font-bold text-brown-700 mb-6 flex items-center gap-2">
-                        <i class="fas fa-comments text-primary-500"></i>
-                        التعليقات (<span id="totalComments">{{ $post->comments->count() }}</span>)
-                    </h3>
-
-                    <!-- نموذج إضافة تعليق -->
-                    @auth
-                        <form id="commentForm" class="mb-8">
-                            @csrf
-                            <textarea name="comment" id="commentText" rows="3" placeholder="اكتب تعليقك هنا..."
-                                class="w-full rounded-xl border-cream-300 focus:border-primary-500 focus:ring focus:ring-primary-200 resize-none"
-                                required></textarea>
-                            <button type="submit" id="submitCommentBtn"
-                                class="mt-3 bg-primary-500 text-white px-6 py-2 rounded-xl hover:bg-primary-600 transition-colors">
-                                <span id="submitText">إرسال التعليق</span>
-                                <i class="fas fa-spinner fa-spin hidden" id="submitSpinner"></i>
-                            </button>
-                        </form>
-                    @else
-                        <div class="mb-8 p-4 bg-cream-100 rounded-xl text-center">
-                            <p class="text-brown-500">
-                                <a href="{{ route('login') }}" class="text-primary-600 hover:underline">سجل دخولك</a>
-                                لإضافة تعليق
-                            </p>
-                        </div>
-                    @endauth
-
-                    <!-- قائمة التعليقات -->
-                    <div id="commentsList">
-                        @forelse($post->comments as $comment)
-                            <div
-                                class="border-b border-cream-200 pb-4 mb-4 last:border-0 last:mb-0 last:pb-0 comment-item">
-                                <div class="flex items-start gap-3">
-                                    <div
-                                        class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <i class="fas fa-user text-primary-500"></i>
-                                    </div>
-                                    <div class="flex-grow">
-                                        <div class="flex items-center gap-2 mb-1">
-                                            <span
-                                                class="font-bold text-brown-700">{{ $comment->user->name ?? 'زائر' }}</span>
-                                            <span
-                                                class="text-sm text-brown-400">{{ $comment->created_at->diffForHumans() }}</span>
-                                        </div>
-                                        <p class="text-brown-600 leading-relaxed">{{ $comment->comment }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <p class="text-center text-brown-400 py-4" id="noCommentsMsg">لا توجد تعليقات بعد. كن أول من
-                                يعلق!</p>
-                        @endforelse
-                    </div>
-                </div>
-            </div>
 
             <!-- منشورات ذات صلة -->
             @if ($relatedPosts->count() > 0)
@@ -386,6 +356,5 @@
                     transform: translateY(0);
                 }
             }
-        </style>
-    @endpush
-@endsection
+
+            @endpush @endsection

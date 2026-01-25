@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 | Web Routes
 |--------------------------------------------------------------------------
 */
+
+// Sitemap
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // الصفحة الرئيسية
 Route::get('/', [SectionController::class, 'welcome'])->name('home');
@@ -24,6 +28,11 @@ Route::get('/post/{id}', [PostController::class, 'show'])->name('posts.show');
 
 // البحث
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+// صفحة عن الشيخ
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 
 // التعليقات والإعجابات (تحتاج تسجيل دخول)
 Route::middleware('auth')->group(function () {
@@ -57,7 +66,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 // صفحة Dashboard
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $totalPosts = \App\Models\Post::count();
+    $totalViews = \App\Models\Post::sum('views');
+    $totalSections = \App\Models\Section::count();
+    $posts = \App\Models\Post::with('section')->latest()->paginate(15);
+    $mostViewedPosts = \App\Models\Post::with('section')->orderBy('views', 'desc')->take(5)->get();
+
+    return view('dashboard', compact('totalPosts', 'totalViews', 'totalSections', 'posts', 'mostViewedPosts'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // إدارة الملف الشخصي

@@ -8,7 +8,7 @@
                     <div class="w-10 h-10 bg-gold-500 rounded-full flex items-center justify-center">
                         <i class="fas fa-mosque text-primary-900 text-lg"></i>
                     </div>
-                    <span class="text-white font-bold text-lg">رواق العلوم الشرعية</span>
+                    <span class="text-white font-bold text-lg">د. محمد المطري</span>
                 </a>
             </div>
 
@@ -21,7 +21,7 @@
                 </a>
 
                 @php
-                    $sections = \App\Models\Section::all();
+                    $sections = \App\Models\Section::take(4)->get();
                 @endphp
 
                 @foreach ($sections as $section)
@@ -31,24 +31,26 @@
                         <span>{{ $section->name }}</span>
                     </a>
                 @endforeach
+
+                <a href="{{ route('about') }}"
+                    class="px-4 py-2 text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-2">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>عن الشيخ</span>
+                </a>
             </div>
 
             <!-- أزرار المستخدم -->
             <div class="hidden md:flex items-center space-x-3 rtl:space-x-reverse">
                 @auth
                     @if (Auth::user()->usertype == 'admin' || Auth::user()->usertype == 'admin2')
-                        <a href="{{ route('admin.posts.create') }}"
+                        <a href="{{ route('dashboard') }}"
                             class="bg-gold-500 text-primary-900 px-4 py-2 rounded-lg font-medium hover:bg-gold-400 transition-colors duration-200 flex items-center gap-2">
-                            <i class="fas fa-plus"></i>
-                            <span>إضافة منشور</span>
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>لوحة التحكم</span>
                         </a>
                     @endif
                     <a href="{{ route('profile.edit') }}" class="text-white hover:text-gold-300 transition-colors">
                         <i class="fas fa-user-circle text-2xl"></i>
-                    </a>
-                @else
-                    <a href="{{ route('login') }}" class="text-white hover:text-gold-300 transition-colors px-3 py-2">
-                        تسجيل الدخول
                     </a>
                 @endauth
             </div>
@@ -83,25 +85,26 @@
                 </a>
             @endforeach
 
+            <a href="{{ route('about') }}"
+                class="block px-4 py-3 text-white hover:bg-primary-700 rounded-lg transition-colors">
+                <i class="fas fa-user-graduate ml-2"></i>
+                عن الشيخ
+            </a>
+
             <hr class="border-primary-400 my-2">
 
             @auth
                 @if (Auth::user()->usertype == 'admin' || Auth::user()->usertype == 'admin2')
-                    <a href="{{ route('admin.posts.create') }}"
+                    <a href="{{ route('dashboard') }}"
                         class="block px-4 py-3 bg-gold-500 text-primary-900 rounded-lg font-medium text-center">
-                        <i class="fas fa-plus ml-2"></i>
-                        إضافة منشور
+                        <i class="fas fa-tachometer-alt ml-2"></i>
+                        لوحة التحكم
                     </a>
                 @endif
                 <a href="{{ route('profile.edit') }}"
                     class="block px-4 py-3 text-white hover:bg-primary-700 rounded-lg transition-colors">
                     <i class="fas fa-user ml-2"></i>
                     الملف الشخصي
-                </a>
-            @else
-                <a href="{{ route('login') }}"
-                    class="block px-4 py-3 text-white hover:bg-primary-700 rounded-lg transition-colors text-center">
-                    تسجيل الدخول
                 </a>
             @endauth
         </div>

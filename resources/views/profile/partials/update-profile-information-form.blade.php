@@ -1,71 +1,76 @@
 <section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Profile Information') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Update your account's profile information and email address.") }}
-        </p>
-    </header>
+    <p class="text-brown-600 mb-4">تحديث اسم الحساب والبريد الإلكتروني</p>
 
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="space-y-6">
         @csrf
         @method('patch')
 
+        <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
-        </div>
-        <div class="mt-4 ">
-            <img src="{{$user->img ? url('img/'.$user->img.'') : url('R.png')}}"
-            class="object-cover w-10 h-10 rounded-full border-2 border-emerald-400  shadow-emerald-400">
-            <div class=" max-w-xs">
-                <label for="example1" class="mb-1 block text-sm font-medium text-gray-700">الصورة</label>
-                <input id="example1" accept="image/*" name="img" value="" type="file" class="mt-2 block w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-teal-500 file:py-2 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-teal-700 focus:outline-none disabled:pointer-events-none disabled:opacity-60" />
-            </div>
+            <label for="name" class="block text-sm font-medium text-brown-700 mb-2">
+                <i class="fas fa-user text-primary-600 ml-1"></i>
+                الاسم
+            </label>
+            <input id="name" name="name" type="text"
+                class="w-full px-4 py-3 rounded-xl border-2 border-cream-300 focus:border-primary-500 focus:ring-4 focus:ring-primary-100 transition-all"
+                value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
+            @error('name')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
+        <!-- Email -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            <label for="email" class="block text-sm font-medium text-brown-700 mb-2">
+                <i class="fas fa-envelope text-primary-600 ml-1"></i>
+                البريد الإلكتروني
+            </label>
+            <input id="email" name="email" type="email"
+                class="w-full px-4 py-3 rounded-xl border-2 border-cream-300 focus:border-primary-500 focus:ring-4 focus:ring-primary-100 transition-all"
+                value="{{ old('email', $user->email) }}" required autocomplete="username">
+            @error('email')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Your email address is unverified.') }}
-
-                        <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
+            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
+                <div class="mt-3 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+                    <p class="text-sm text-yellow-800 mb-2">
+                        <i class="fas fa-exclamation-triangle ml-1"></i>
+                        بريدك الإلكتروني غير موثق.
                     </p>
 
+                    <button form="send-verification" class="text-sm text-primary-600 hover:text-primary-700 underline">
+                        اضغط هنا لإعادة إرسال رابط التوثيق
+                    </button>
+
                     @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
+                        <p class="mt-2 text-sm text-green-600">
+                            <i class="fas fa-check-circle ml-1"></i>
+                            تم إرسال رابط توثيق جديد إلى بريدك الإلكتروني
                         </p>
                     @endif
                 </div>
             @endif
         </div>
 
+        <!-- Save Button -->
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <button type="submit"
+                class="bg-primary-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-primary-600 transition-colors">
+                <i class="fas fa-save ml-1"></i>
+                حفظ التعديلات
+            </button>
 
             @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
+                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-green-600">
+                    <i class="fas fa-check-circle ml-1"></i>
+                    تم الحفظ بنجاح
+                </p>
             @endif
         </div>
     </form>

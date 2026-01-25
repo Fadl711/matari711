@@ -78,7 +78,14 @@
                 @if ($post->imgart)
                     <div class="mb-4">
                         <label class="block text-brown-700 font-medium mb-2">الصورة الحالية</label>
-                        <img src="{{ $post->image }}" alt="" class="max-h-48 rounded-lg">
+                        <div class="relative inline-block">
+                            <img src="{{ $post->image }}" alt="" class="max-h-48 rounded-lg" id="currentImage">
+                            <button type="button" onclick="removeImage()"
+                                class="absolute top-2 right-2 bg-red-500 text-white w-8 h-8 rounded-full hover:bg-red-600 transition-colors shadow-lg">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <input type="hidden" name="remove_image" id="removeImageInput" value="0">
                     </div>
                 @endif
 
@@ -111,10 +118,24 @@
                     </label>
                     <input type="file" name="video" accept="video/*"
                         class="w-full rounded-xl border border-cream-300 p-2">
-                    @if ($post->fileVid)
-                        <p class="text-sm text-brown-400 mt-1">الملف الحالي: {{ $post->fileVid }}</p>
-                    @endif
                 </div>
+
+                <!-- الفيديو الحالي -->
+                @if ($post->fileVid)
+                    <div class="mb-4">
+                        <label class="block text-brown-700 font-medium mb-2">الفيديو الحالي</label>
+                        <div class="relative inline-block">
+                            <video controls class="max-h-48 rounded-lg" id="currentVideo">
+                                <source src="{{ asset('uploads/videos/' . $post->fileVid) }}">
+                            </video>
+                            <button type="button" onclick="removeVideo()"
+                                class="absolute top-2 right-2 bg-red-500 text-white w-8 h-8 rounded-full hover:bg-red-600 transition-colors shadow-lg">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <input type="hidden" name="remove_video" id="removeVideoInput" value="0">
+                    </div>
+                @endif
 
                 <!-- ملف صوتي -->
                 <div class="mb-6">
@@ -124,10 +145,25 @@
                     </label>
                     <input type="file" name="audio" accept="audio/*"
                         class="w-full rounded-xl border border-cream-300 p-2">
-                    @if ($post->fileAud)
-                        <p class="text-sm text-brown-400 mt-1">الملف الحالي: {{ $post->fileAud }}</p>
-                    @endif
                 </div>
+
+                <!-- الصوت الحالي -->
+                @if ($post->fileAud)
+                    <div class="mb-4">
+                        <label class="block text-brown-700 font-medium mb-2">الملف الصوتي الحالي</label>
+                        <div class="relative inline-block w-full max-w-md">
+                            <audio controls class="w-full" id="currentAudio">
+                                <source src="{{ asset('uploads/audio/' . $post->fileAud) }}">
+                            </audio>
+                            <button type="button" onclick="removeAudio()"
+                                class="mt-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                                <i class="fas fa-times ml-1"></i>
+                                <span>حذف الملف الصوتي</span>
+                            </button>
+                        </div>
+                        <input type="hidden" name="remove_audio" id="removeAudioInput" value="0">
+                    </div>
+                @endif
 
                 <!-- ملف كتاب -->
                 <div class="mb-8">
@@ -135,11 +171,19 @@
                         <i class="fas fa-book ml-1 text-primary-500"></i>
                         ملف كتاب PDF
                     </label>
+                    @if ($post->books)
+                        <div class="mb-2 p-3 bg-cream-50 rounded-lg flex items-center justify-between">
+                            <span class="text-brown-600">الملف الحالي: {{ $post->books }}</span>
+                            <button type="button" onclick="removeBook()"
+                                class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-colors">
+                                <i class="fas fa-times ml-1"></i>
+                                حذف
+                            </button>
+                        </div>
+                        <input type="hidden" name="remove_book" id="removeBookInput" value="0">
+                    @endif
                     <input type="file" name="book" accept=".pdf"
                         class="w-full rounded-xl border border-cream-300 p-2">
-                    @if ($post->books)
-                        <p class="text-sm text-brown-400 mt-1">الملف الحالي: {{ $post->books }}</p>
-                    @endif
                 </div>
 
                 <!-- أزرار الإرسال -->
@@ -158,4 +202,37 @@
         </div>
     </section>
 
+    <script>
+        function removeImage() {
+            if (confirm('هل أنت متأكد من حذف الصورة؟')) {
+                document.getElementById('currentImage').style.display = 'none';
+                document.getElementById('removeImageInput').value = '1';
+                event.target.closest('.relative').style.display = 'none';
+            }
+        }
+
+        function removeVideo() {
+            if (confirm('هل أنت متأكد من حذف الفيديو؟')) {
+                document.getElementById('currentVideo').style.display = 'none';
+                document.getElementById('removeVideoInput').value = '1';
+                event.target.closest('.relative').style.display = 'none';
+            }
+        }
+
+        function removeAudio() {
+            if (confirm('هل أنت متأكد من حذف الملف الصوتي؟')) {
+                document.getElementById('currentAudio').style.display = 'none';
+                document.getElementById('removeAudioInput').value = '1';
+                event.target.closest('.relative').style.display = 'none';
+            }
+        }
+
+        function removeBook() {
+            if (confirm('هل أنت متأكد من حذف الكتاب؟')) {
+                document.getElementById('removeBookInput').value = '1';
+                event.target.closest('.mb-2').innerHTML =
+                    '<span class="text-red-600"><i class="fas fa-check ml-1"></i>سيتم حذف الكتاب عند الحفظ</span>';
+            }
+        }
+    </script>
 @endsection

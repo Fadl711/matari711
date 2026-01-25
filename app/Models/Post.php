@@ -14,12 +14,15 @@ class Post extends Model
         'body',
         'imgart',
         'idsection',
+        'teypsection',
         'userid',
         'fileVid',
         'link_video',
         'fileAud',
         'books',
     ];
+
+    protected $guarded = ['id', 'views'];
 
     /**
      * العلاقة مع القسم

@@ -33,9 +33,24 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'nullable|string',
+            'title' => 'required|string|max:255|min:3',
+            'body' => 'nullable|string|max:50000',
             'section_id' => 'required|exists:sections,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240', // 10MB
+            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime|max:102400', // 100MB
+            'video_link' => 'nullable|url|max:500',
+            'audio' => 'nullable|mimetypes:audio/mpeg,audio/mp3,audio/wav,audio/x-wav|max:20480', // 20MB
+            'book' => 'nullable|mimes:pdf|max:40960', // 40MB
+        ], [
+            'title.required' => 'العنوان مطلوب',
+            'title.min' => 'العنوان يجب أن يكون 3 أحرف على الأقل',
+            'section_id.exists' => 'القسم المختار غير موجود',
+            'image.mimes' => 'الصورة يجب أن تكون بصيغة: jpeg, png, jpg, webp',
+            'image.max' => 'حجم الصورة يجب ألا يتجاوز 10 ميجابايت',
+            'video.max' => 'حجم الفيديو يجب ألا يتجاوز 100 ميجابايت',
+            'audio.max' => 'حجم الملف الصوتي يجب ألا يتجاوز 20 ميجابايت',
+            'book.mimes' => 'الكتاب يجب أن يكون بصيغة PDF',
+            'book.max' => 'حجم الكتاب يجب ألا يتجاوز 40 ميجابايت',
         ]);
 
         $post = new Post();
@@ -45,36 +60,46 @@ class PostController extends Controller
         $post->teypsection = $request->section_id;
         $post->userid = Auth::id();
 
-        // رفع الصورة محلياً
+        // رفع الصورة محلياً مع التحقق الأمني
+        // رفع الصورة محلياً مع التحقق الأمني وضغطها
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads/images'), $imageName);
+            $imageName = uniqid() . '_' . time() . '.webp'; // تحويل لـ WebP
+            $destinationPath = public_path('uploads/images/' . $imageName);
+
+            // محاولة الضغط (Native PHP)
+            try {
+                $this->compressImage($image, $destinationPath, 75);
+            } catch (\Exception $e) {
+                // في حالة الفشل، الرفع العادي كخطة بديلة
+                $image->move(public_path('uploads/images'), $imageName);
+            }
+
             $post->imgart = $imageName;
         }
 
-        // رفع الفيديو
+        // رفع الفيديو مع التحقق الأمني
         if ($request->hasFile('video')) {
             $video = $request->file('video');
-            $videoName = time() . '_' . $video->getClientOriginalName();
+            $videoName = uniqid() . '_' . time() . '.' . $video->getClientOriginalExtension();
             $video->move(public_path('uploads/videos'), $videoName);
             $post->fileVid = $videoName;
         } elseif ($request->video_link) {
             $post->link_video = $this->extractYoutubeId($request->video_link);
         }
 
-        // رفع الصوت
+        // رفع الصوت مع التحقق الأمني
         if ($request->hasFile('audio')) {
             $audio = $request->file('audio');
-            $audioName = time() . '_' . $audio->getClientOriginalName();
+            $audioName = uniqid() . '_' . time() . '.' . $audio->getClientOriginalExtension();
             $audio->move(public_path('uploads/audio'), $audioName);
             $post->fileAud = $audioName;
         }
 
-        // رفع الكتاب
+        // رفع الكتاب مع التحقق الأمني
         if ($request->hasFile('book')) {
             $book = $request->file('book');
-            $bookName = time() . '_' . $book->getClientOriginalName();
+            $bookName = uniqid() . '_' . time() . '.' . $book->getClientOriginalExtension();
             $book->move(public_path('uploads/books'), $bookName);
             $post->books = $bookName;
         }
@@ -91,6 +116,10 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::with(['section', 'comments.user'])->findOrFail($id);
+
+        // زيادة عدد المشاهدات
+        $post->increment('views');
+
         $relatedPosts = Post::where('idsection', $post->idsection)
             ->where('id', '!=', $id)
             ->latest()
@@ -116,9 +145,14 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'body' => 'nullable|string',
+            'title' => 'required|string|max:255|min:3',
+            'body' => 'nullable|string|max:50000',
             'section_id' => 'required|exists:sections,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
+            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime|max:102400',
+            'video_link' => 'nullable|url|max:500',
+            'audio' => 'nullable|mimetypes:audio/mpeg,audio/mp3,audio/wav,audio/x-wav|max:20480',
+            'book' => 'nullable|mimes:pdf|max:40960',
         ]);
 
         $post = Post::findOrFail($id);
@@ -127,36 +161,94 @@ class PostController extends Controller
         $post->idsection = $request->section_id;
         $post->teypsection = $request->section_id;
 
-        // تحديث الصورة محلياً
+        // حذف الصورة إذا طُلب ذلك
+        if ($request->remove_image == '1') {
+            if ($post->imgart && file_exists(public_path('uploads/images/' . $post->imgart))) {
+                unlink(public_path('uploads/images/' . $post->imgart));
+            }
+            $post->imgart = null;
+        }
+
+        // حذف الفيديو إذا طُلب ذلك
+        if ($request->remove_video == '1') {
+            if ($post->fileVid && file_exists(public_path('uploads/videos/' . $post->fileVid))) {
+                unlink(public_path('uploads/videos/' . $post->fileVid));
+            }
+            $post->fileVid = null;
+        }
+
+        // حذف الصوت إذا طُلب ذلك
+        if ($request->remove_audio == '1') {
+            if ($post->fileAud && file_exists(public_path('uploads/audio/' . $post->fileAud))) {
+                unlink(public_path('uploads/audio/' . $post->fileAud));
+            }
+            $post->fileAud = null;
+        }
+
+        // حذف الكتاب إذا طُلب ذلك
+        if ($request->remove_book == '1') {
+            if ($post->books && file_exists(public_path('uploads/books/' . $post->books))) {
+                unlink(public_path('uploads/books/' . $post->books));
+            }
+            $post->books = null;
+        }
+
+        // تحديث الصورة محلياً مع التحقق الأمني وضغطها
         if ($request->hasFile('image')) {
+            // حذف الصورة القديمة
+            if ($post->imgart && file_exists(public_path('uploads/images/' . $post->imgart))) {
+                unlink(public_path('uploads/images/' . $post->imgart));
+            }
+
             $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('uploads/images'), $imageName);
+            $imageName = uniqid() . '_' . time() . '.webp'; // تحويل لـ WebP
+            $destinationPath = public_path('uploads/images/' . $imageName);
+
+            // محاولة الضغط (Native PHP)
+            try {
+                $this->compressImage($image, $destinationPath, 75);
+            } catch (\Exception $e) {
+                // في حالة الفشل، الرفع العادي كخطة بديلة
+                $image->move(public_path('uploads/images'), $imageName);
+            }
+
             $post->imgart = $imageName;
         }
 
-        // تحديث الفيديو
+        // تحديث الفيديو مع التحقق الأمني
         if ($request->hasFile('video')) {
+            // حذف الفيديو القديم
+            if ($post->fileVid && file_exists(public_path('uploads/videos/' . $post->fileVid))) {
+                unlink(public_path('uploads/videos/' . $post->fileVid));
+            }
             $video = $request->file('video');
-            $videoName = time() . '_' . $video->getClientOriginalName();
+            $videoName = uniqid() . '_' . time() . '.' . $video->getClientOriginalExtension();
             $video->move(public_path('uploads/videos'), $videoName);
             $post->fileVid = $videoName;
         } elseif ($request->video_link) {
             $post->link_video = $this->extractYoutubeId($request->video_link);
         }
 
-        // تحديث الصوت
+        // تحديث الصوت مع التحقق الأمني
         if ($request->hasFile('audio')) {
+            // حذف الصوت القديم
+            if ($post->fileAud && file_exists(public_path('uploads/audio/' . $post->fileAud))) {
+                unlink(public_path('uploads/audio/' . $post->fileAud));
+            }
             $audio = $request->file('audio');
-            $audioName = time() . '_' . $audio->getClientOriginalName();
+            $audioName = uniqid() . '_' . time() . '.' . $audio->getClientOriginalExtension();
             $audio->move(public_path('uploads/audio'), $audioName);
             $post->fileAud = $audioName;
         }
 
-        // تحديث الكتاب
+        // تحديث الكتاب مع التحقق الأمني
         if ($request->hasFile('book')) {
+            // حذف الكتاب القديم
+            if ($post->books && file_exists(public_path('uploads/books/' . $post->books))) {
+                unlink(public_path('uploads/books/' . $post->books));
+            }
             $book = $request->file('book');
-            $bookName = time() . '_' . $book->getClientOriginalName();
+            $bookName = uniqid() . '_' . time() . '.' . $book->getClientOriginalExtension();
             $book->move(public_path('uploads/books'), $bookName);
             $post->books = $bookName;
         }
@@ -191,5 +283,32 @@ class PostController extends Controller
     {
         preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $url, $matches);
         return $matches[1] ?? $url;
+    }
+
+    /**
+     * دالة مساعدة لضغط الصور محلياً (Native PHP)
+     * تحول الصور إلى WebP وتضغطها لتقليل الحجم
+     */
+    private function compressImage($source, $destination, $quality)
+    {
+        $info = getimagesize($source);
+
+        if ($info['mime'] == 'image/jpeg')
+            $image = imagecreatefromjpeg($source);
+        elseif ($info['mime'] == 'image/gif')
+            $image = imagecreatefromgif($source);
+        elseif ($info['mime'] == 'image/png')
+            $image = imagecreatefrompng($source);
+        elseif ($info['mime'] == 'image/webp')
+            $image = imagecreatefromwebp($source);
+        else
+            return false; // نوع غير مدعوم
+
+        // حفظ الصورة بصيغة WebP (الأفضل للويب)
+        imagepalettetotruecolor($image);
+        imagewebp($image, $destination, $quality);
+        imagedestroy($image);
+
+        return true;
     }
 }

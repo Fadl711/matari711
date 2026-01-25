@@ -19,3 +19,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Ignore User Uploads
+/public/uploads/*
+!/public/uploads/.gitkeep

@@ -1,6 +1,15 @@
 @extends('layout')
 
-@section('title', 'رواق العلوم الشرعية - الرئيسية')
+@section('title', 'الشيخ الدكتور محمد المطري - الموقع الرسمي')
+@section('meta_title', 'الموقع الرسمي للشيخ الدكتور محمد بن علي بن جميل المطري')
+@section('meta_description', 'الموقع الرسمي للشيخ الدكتور محمد المطري، يحتوي على مجموعة كبيرة من الخطب والدروس الصوتية
+    والمرئية والفتاوى والمقالات في التفسير وعلوم القرآن والفقه.')
+@section('meta_keywords', 'محمد المطري، الشيخ المطري، التفسير، علوم القرآن، الحديدة، اليمن، فتاوى، كتب إسلامية، خطب
+    جمعة')
+
+@section('og_title', 'الشيخ الدكتور محمد المطري - الموقع الرسمي')
+@section('og_description', 'موقع علمي دعوي شامل للشيخ الدكتور محمد المطري لنشر العلم الشرعي الصحيح.')
+@section('og_image', asset('R.png'))
 
 @section('content')
     <!-- Hero Section -->
@@ -22,19 +31,17 @@
 
                 <!-- العنوان الرئيسي -->
                 <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 font-arabic">
-                    رواق العلوم الشرعية
+                    الموقع الرسمي
                 </h1>
 
                 <!-- اسم الشيخ -->
-                <p class="text-xl md:text-2xl text-gold-300 mb-6">
-                    د. محمد بن علي بن جميل المطري
+                <p class="text-xl md:text-2xl text-gold-300 mb-3">
+                    للشيخ الدكتور محمد بن علي بن جميل المطري
                 </p>
 
                 <!-- الوصف -->
-                <p class="text-primary-100 text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
-                    منصة علمية شرعية تقدم المقالات والكتب والفتاوى والدروس الصوتية والمرئية
-                    <br class="hidden md:block">
-                    لنشر العلم النافع وبيان أحكام الشريعة الإسلامية
+                <p class="text-primary-100 text-base md:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
+                    لنشر العلم النافع من مقالات وكتب وفتاوى ودروس صوتية ومرئية
                 </p>
 
                 <!-- أزرار الإجراء -->
