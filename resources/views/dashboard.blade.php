@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'لوحة التحكم - د. محمد المطري')
+@section('title', 'لوحة التحكم - د.محمد بن جميل المطري')
 
 @section('content')
     <div class="min-h-screen bg-cream-50 py-8">

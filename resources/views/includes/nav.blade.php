@@ -8,7 +8,7 @@
                     <div class="w-10 h-10 bg-gold-500 rounded-full flex items-center justify-center">
                         <i class="fas fa-mosque text-primary-900 text-lg"></i>
                     </div>
-                    <span class="text-white font-bold text-lg">د. محمد المطري</span>
+                    <span class="text-white font-bold text-lg">د.محمد بن جميل المطري</span>
                 </a>
             </div>
 

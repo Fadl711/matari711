@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'تسجيل الدخول - د. محمد المطري')
+@section('title', 'تسجيل الدخول - د.محمد بن جميل المطري')
 
 @section('content')
     <div
@@ -14,7 +14,7 @@
                         <i class="fas fa-mosque text-4xl text-white"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-white mb-2">تسجيل الدخول</h2>
-                    <p class="text-primary-100">د. محمد المطري</p>
+                    <p class="text-primary-100">د.محمد بن جميل المطري</p>
                 </div>
 
                 <!-- Form -->

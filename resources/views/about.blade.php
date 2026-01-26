@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'عن الشيخ - د. محمد المطري')
+@section('title', 'عن الشيخ - د.محمد بن جميل المطري')
 
 @section('content')
     <!-- Hero Section -->

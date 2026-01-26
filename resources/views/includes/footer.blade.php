@@ -10,7 +10,7 @@
                         <i class="fas fa-mosque text-primary-900 text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-bold">د. محمد المطري</h3>
+                        <h3 class="text-xl font-bold">د.محمد بن جميل المطري</h3>
                         <p class="text-primary-200 text-sm">موقع رسمي</p>
                     </div>
                 </div>
