@@ -28,7 +28,7 @@ Allow: /css/
 Allow: /js/
 
 # Sitemap location
-Sitemap: http://localhost:8000/sitemap.xml
+Sitemap: https://mat.ytravelio.com/sitemap.xml
 
 # Crawl delay (seconds)
 Crawl-delay: 1
