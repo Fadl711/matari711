@@ -1,8 +1,8 @@
 <!-- التذييل -->
 <footer class="bg-primary-800 text-white mt-auto">
     <!-- القسم العلوي -->
-    <div class="max-w-7xl mx-auto px-4 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="max-w-7xl mx-auto px-4 py-8 lg:py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
             <!-- معلومات الموقع -->
             <div class="text-center md:text-right">
                 <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
@@ -49,34 +49,34 @@
 
             <!-- التواصل -->
             <div class="text-center md:text-right">
-                <h4 class="text-lg font-bold mb-4 text-gold-400">تواصل معنا</h4>
-                <div class=" flex justify-center md:justify-center md:ml-52 gap-4">
+                <h4 class="text-base lg:text-lg font-bold mb-3 lg:mb-4 text-gold-400">تواصل معنا</h4>
+                <div class="flex flex-wrap justify-center md:justify-start gap-2 lg:gap-3">
                     <a href="https://www.facebook.com/people/%D9%85%D8%AD%D9%85%D8%AF-%D8%A7%D9%84%D9%85%D8%B7%D8%B1%D9%8A-%D8%A3%D8%A8%D9%88-%D8%A7%D9%84%D8%AD%D8%A7%D8%B1%D8%AB/100001945734611/"
                         target="_blank"
-                        class="w-12 h-12 bg-primary-700 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors">
-                        <i class="fab fa-facebook-f text-xl"></i>
+                        class="w-10 h-10 lg:w-12 lg:h-12 bg-primary-700 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors">
+                        <i class="fab fa-facebook-f text-base lg:text-xl"></i>
                     </a>
                     <a href="https://wa.me/967777175927" target="_blank"
-                        class="w-12 h-12 bg-primary-700 hover:bg-green-600 rounded-full flex items-center justify-center transition-colors">
-                        <i class="fab fa-whatsapp text-xl"></i>
+                        class="w-10 h-10 lg:w-12 lg:h-12 bg-primary-700 hover:bg-green-600 rounded-full flex items-center justify-center transition-colors">
+                        <i class="fab fa-whatsapp text-base lg:text-xl"></i>
                     </a>
                     <a href="#"
-                        class="w-12 h-12 bg-primary-700 hover:bg-red-600 rounded-full flex items-center justify-center transition-colors">
-                        <i class="fab fa-youtube text-xl"></i>
+                        class="w-10 h-10 lg:w-12 lg:h-12 bg-primary-700 hover:bg-red-600 rounded-full flex items-center justify-center transition-colors">
+                        <i class="fab fa-youtube text-base lg:text-xl"></i>
                     </a>
                 </div>
 
                 <!-- معلومات الاتصال -->
-                <div class="mt-6 space-y-2">
+                <div class="mt-4 lg:mt-6 space-y-2 text-sm lg:text-base">
                     <a href="mailto:Matari63@Hotmail.com"
-                        class="block text-primary-200 hover:text-gold-400 transition-colors">
-                        <i class="fas fa-envelope ml-2"></i>
-                        Matari63@Hotmail.com
+                        class="block text-primary-200 hover:text-gold-400 transition-colors break-all">
+                        <i class="fas fa-envelope ml-2 text-sm"></i>
+                        <span class="text-xs lg:text-sm">Matari63@Hotmail.com</span>
                     </a>
                     <a href="tel:+967777175927" class="block text-primary-200 hover:text-gold-400 transition-colors"
                         dir="ltr">
-                        <i class="fas fa-phone ml-2"></i>
-                        +967 777 175 927
+                        <i class="fas fa-phone ml-2 text-sm"></i>
+                        <span class="text-xs lg:text-sm">+967 777 175 927</span>
                     </a>
                 </div>
             </div>

@@ -2,9 +2,11 @@
 
 @section('title', 'الشيخ الدكتور محمد المطري - الموقع الرسمي')
 @section('meta_title', 'الموقع الرسمي للشيخ الدكتور محمد بن علي بن جميل المطري')
-@section('meta_description', 'الموقع الرسمي للشيخ الدكتور محمد المطري، يحتوي على مجموعة كبيرة من الخطب والدروس الصوتية
+@section('meta_description',
+    'الموقع الرسمي للشيخ الدكتور محمد المطري، يحتوي على مجموعة كبيرة من الخطب والدروس الصوتية
     والمرئية والفتاوى والمقالات في التفسير وعلوم القرآن والفقه.')
-@section('meta_keywords', 'محمد المطري، الشيخ المطري، التفسير، علوم القرآن، الحديدة، اليمن، فتاوى، كتب إسلامية، خطب
+@section('meta_keywords',
+    'محمد المطري، الشيخ المطري، التفسير، علوم القرآن، الحديدة، اليمن، فتاوى، كتب إسلامية، خطب
     جمعة')
 
 @section('og_title', 'الشيخ الدكتور محمد المطري - الموقع الرسمي')
@@ -12,7 +14,7 @@
 @section('og_image', asset('R.png'))
 
 @section('content')
-    <!-- Hero Section -->
+    <!-- Hero Section with Sheikh Photo -->
     <section class="islamic-gradient relative overflow-hidden">
         <!-- نمط إسلامي خلفي -->
         <div class="absolute inset-0 opacity-10">
@@ -21,42 +23,87 @@
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 relative z-10">
-            <div class="text-center">
-                <!-- الأيقونة -->
-                <div
-                    class="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 bg-gold-500/20 rounded-full mb-6">
-                    <i class="fas fa-mosque text-gold-400 text-4xl md:text-5xl"></i>
+        <div class="max-w-7xl mx-auto px-4 py-12 md:py-20 relative z-10">
+            <!-- Grid Layout: Photo + Content -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+                <!-- Right Side: Text Content -->
+                <div class="text-center lg:text-right order-1 lg:order-1">
+                    <!-- الأيقونة -->
+                    <div
+                        class="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-gold-500/20 rounded-full mb-5">
+                        <i class="fas fa-mosque text-gold-400 text-3xl md:text-4xl"></i>
+                    </div>
+
+                    <!-- العنوان الرئيسي -->
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 font-arabic leading-tight">
+                        الموقع الرسمي
+                    </h1>
+
+                    <!-- اسم الشيخ -->
+                    <p class="text-xl md:text-2xl text-gold-300 mb-3 font-arabic">
+                        للشيخ الدكتور <br class="sm:hidden">
+                        <span class="font-bold">محمد بن علي بن جميل المطري</span>
+                    </p>
+
+                    <!-- الوصف -->
+                    <p class="text-primary-100 text-base md:text-lg max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed">
+                        لنشر العلم النافع من مقالات وكتب وفتاوى ودروس صوتية ومرئية
+                    </p>
+
+                    <!-- أزرار الإجراء -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#sections"
+                            class="inline-flex items-center justify-center gap-2 bg-gold-500 text-primary-900 px-8 py-3 rounded-full font-bold hover:bg-gold-400 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            <i class="fas fa-book-open"></i>
+                            <span>تصفح المحتوى</span>
+                        </a>
+                        <a href="#latest"
+                            class="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white px-8 py-3 rounded-full font-medium hover:bg-white/10 transition-all duration-300">
+                            <i class="fas fa-clock"></i>
+                            <span>أحدث المنشورات</span>
+                        </a>
+                    </div>
                 </div>
 
-                <!-- العنوان الرئيسي -->
-                <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 font-arabic">
-                    الموقع الرسمي
-                </h1>
+                <!-- Left Side: Sheikh Photo -->
+                <div class="order-2 lg:order-2 flex justify-center lg:justify-end">
+                    <div class="relative group">
+                        <!-- الإطار الخارجي الذهبي -->
+                        <div
+                            class="absolute -inset-4 bg-gradient-to-br from-gold-500 via-gold-400 to-gold-600 rounded-3xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500">
+                        </div>
 
-                <!-- اسم الشيخ -->
-                <p class="text-xl md:text-2xl text-gold-300 mb-3">
-                    للشيخ الدكتور محمد بن علي بن جميل المطري
-                </p>
+                        <!-- صورة الشيخ -->
+                        <div class="relative">
+                            <div
+                                class="overflow-hidden rounded-3xl border-4 border-gold-400/50 shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-500">
+                                <img src="{{ asset('sheikh-photo.jpg') }}" alt="الشيخ الدكتور محمد المطري"
+                                    class="w-full max-w-md h-auto object-cover" style="max-height: 500px;">
+                            </div>
 
-                <!-- الوصف -->
-                <p class="text-primary-100 text-base md:text-lg max-w-xl mx-auto mb-8 leading-relaxed">
-                    لنشر العلم النافع من مقالات وكتب وفتاوى ودروس صوتية ومرئية
-                </p>
+                            <!-- زخرفة إسلامية -->
+                            <div class="absolute -top-6 -right-6 w-24 h-24 bg-gold-500/20 rounded-full blur-2xl"></div>
+                            <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-primary-400/20 rounded-full blur-2xl"></div>
+                        </div>
 
-                <!-- أزرار الإجراء -->
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="#sections"
-                        class="inline-flex items-center justify-center gap-2 bg-gold-500 text-primary-900 px-8 py-3 rounded-full font-bold hover:bg-gold-400 transition-all duration-300 transform hover:scale-105">
-                        <i class="fas fa-book-open"></i>
-                        <span>تصفح المحتوى</span>
-                    </a>
-                    <a href="#latest"
-                        class="inline-flex items-center justify-center gap-2 border-2 border-white/30 text-white px-8 py-3 rounded-full font-medium hover:bg-white/10 transition-all duration-300">
-                        <i class="fas fa-clock"></i>
-                        <span>أحدث المنشورات</span>
-                    </a>
+                        <!-- شارة تعريفية أسفل الصورة -->
+                        <div
+                            class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-white rounded-2xl shadow-xl px-6 py-3 min-w-max">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-graduation-cap text-white text-lg"></i>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs text-brown-500">دكتوراه في</p>
+                                    <p class="text-sm font-bold text-brown-700">التفسير وعلوم القرآن</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
 
@@ -131,10 +178,10 @@
                                 class="bg-white rounded-2xl overflow-hidden shadow-lg card-hover group cursor-pointer flex flex-col h-full"
                                 onclick="window.location='{{ route('posts.show', $post->id) }}'">
                                 <!-- صورة المنشور -->
-                                <div class="relative h-48 overflow-hidden">
+                                <div class="relative h-48 overflow-hidden bg-gray-100">
                                     @if ($post->image)
                                         <img src="{{ $post->image }}" alt="{{ $post->title }}"
-                                            class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                                            class="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500">
                                     @else
                                         <div class="w-full h-full bg-primary-600 flex items-center justify-center">
                                             <i class="fas fa-mosque text-white text-5xl opacity-50"></i>

@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', $section->name . ' - رواق العلوم الشرعية')
+@section('title', $section->name . ' - د.محمد بن جميل المطري')
 
 @section('content')
     <!-- رأس الصفحة -->
@@ -46,10 +46,10 @@
                             class="bg-white rounded-2xl overflow-hidden shadow-lg card-hover group cursor-pointer flex flex-col h-full"
                             onclick="window.location='{{ route('posts.show', $post->id) }}'">
                             <!-- صورة المنشور -->
-                            <div class="relative h-48 sm:h-52 overflow-hidden">
+                            <div class="relative h-48 sm:h-52 overflow-hidden bg-gray-100">
                                 @if ($post->image)
                                     <img src="{{ $post->image }}" alt="{{ $post->title }}"
-                                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                                        class="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500">
                                 @else
                                     <div class="w-full h-full bg-primary-600 flex items-center justify-center">
                                         <i class="fas fa-mosque text-white text-5xl opacity-50"></i>

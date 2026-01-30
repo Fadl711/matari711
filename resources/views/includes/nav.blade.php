@@ -8,15 +8,15 @@
                     <div class="w-10 h-10 bg-gold-500 rounded-full flex items-center justify-center">
                         <i class="fas fa-mosque text-primary-900 text-lg"></i>
                     </div>
-                    <span class="text-white font-bold text-lg">د.محمد بن جميل المطري</span>
+                    <span class="text-white font-bold text-sm md:text-base lg:text-lg">د.محمد بن جميل المطري</span>
                 </a>
             </div>
 
             <!-- القائمة للشاشات الكبيرة -->
-            <div class="hidden md:flex items-center space-x-1 rtl:space-x-reverse">
+            <div class="hidden md:flex flex-wrap items-center gap-1 xl:gap-2">
                 <a href="{{ route('home') }}"
-                    class="px-4 py-2 text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-2">
-                    <i class="fas fa-home"></i>
+                    class="px-2 xl:px-4 py-2 text-sm xl:text-base text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-1 xl:gap-2">
+                    <i class="fas fa-home text-sm hidden xl:inline-block"></i>
                     <span>الرئيسية</span>
                 </a>
 
@@ -26,15 +26,15 @@
 
                 @foreach ($sections as $section)
                     <a href="{{ route('posts.section', $section->id) }}"
-                        class="px-4 py-2 text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-2">
-                        <i class="fas {{ $section->icon }}"></i>
+                        class="px-2 xl:px-4 py-2 text-sm xl:text-base text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-1 xl:gap-2">
+                        <i class="fas {{ $section->icon }} text-sm hidden xl:inline-block"></i>
                         <span>{{ $section->name }}</span>
                     </a>
                 @endforeach
 
                 <a href="{{ route('about') }}"
-                    class="px-4 py-2 text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-2">
-                    <i class="fas fa-user-graduate"></i>
+                    class="px-2 xl:px-4 py-2 text-sm xl:text-base text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-1 xl:gap-2">
+                    <i class="fas fa-user-graduate text-sm hidden xl:inline-block"></i>
                     <span>عن الشيخ</span>
                 </a>
             </div>
@@ -44,14 +44,13 @@
                 @auth
                     @if (Auth::user()->usertype == 'admin' || Auth::user()->usertype == 'admin2')
                         <a href="{{ route('dashboard') }}"
-                            class="bg-gold-500 text-primary-900 px-4 py-2 rounded-lg font-medium hover:bg-gold-400 transition-colors duration-200 flex items-center gap-2">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>لوحة التحكم</span>
+                            class="bg-gold-500 text-primary-900 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-sm font-medium hover:bg-gold-400 transition-colors duration-200 flex items-center gap-1.5">
+                            <i class="fas fa-tachometer-alt text-sm"></i>
+                            <span class="hidden lg:inline">لوحة التحكم</span>
+                            <span class="lg:hidden">لوحة</span>
                         </a>
                     @endif
-                    <a href="{{ route('profile.edit') }}" class="text-white hover:text-gold-300 transition-colors">
-                        <i class="fas fa-user-circle text-2xl"></i>
-                    </a>
+
                 @endauth
             </div>
 

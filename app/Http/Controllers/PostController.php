@@ -36,21 +36,17 @@ class PostController extends Controller
             'title' => 'required|string|max:255|min:3',
             'body' => 'nullable|string|max:50000',
             'section_id' => 'required|exists:sections,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240', // 10MB
-            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime|max:102400', // 100MB
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp', // No size limit
+            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime', // No size limit
             'video_link' => 'nullable|url|max:500',
-            'audio' => 'nullable|mimetypes:audio/mpeg,audio/mp3,audio/wav,audio/x-wav|max:20480', // 20MB
-            'book' => 'nullable|mimes:pdf|max:40960', // 40MB
+            'audio' => 'nullable|mimetypes:audio/mpeg,audio/mp3,audio/wav,audio/x-wav', // No size limit
+            'book' => 'nullable|mimes:pdf', // No size limit
         ], [
             'title.required' => 'العنوان مطلوب',
             'title.min' => 'العنوان يجب أن يكون 3 أحرف على الأقل',
             'section_id.exists' => 'القسم المختار غير موجود',
             'image.mimes' => 'الصورة يجب أن تكون بصيغة: jpeg, png, jpg, webp',
-            'image.max' => 'حجم الصورة يجب ألا يتجاوز 10 ميجابايت',
-            'video.max' => 'حجم الفيديو يجب ألا يتجاوز 100 ميجابايت',
-            'audio.max' => 'حجم الملف الصوتي يجب ألا يتجاوز 20 ميجابايت',
             'book.mimes' => 'الكتاب يجب أن يكون بصيغة PDF',
-            'book.max' => 'حجم الكتاب يجب ألا يتجاوز 40 ميجابايت',
         ]);
 
         $post = new Post();
@@ -148,11 +144,11 @@ class PostController extends Controller
             'title' => 'required|string|max:255|min:3',
             'body' => 'nullable|string|max:50000',
             'section_id' => 'required|exists:sections,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
-            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime|max:102400',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp', // No size limit
+            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime', // No size limit
             'video_link' => 'nullable|url|max:500',
-            'audio' => 'nullable|mimetypes:audio/mpeg,audio/mp3,audio/wav,audio/x-wav|max:20480',
-            'book' => 'nullable|mimes:pdf|max:40960',
+            'audio' => 'nullable|mimetypes:audio/mpeg,audio/mp3,audio/wav,audio/x-wav', // No size limit
+            'book' => 'nullable|mimes:pdf', // No size limit
         ]);
 
         $post = Post::findOrFail($id);

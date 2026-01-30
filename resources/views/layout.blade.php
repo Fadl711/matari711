@@ -224,6 +224,9 @@
 </head>
 
 <body class="bg-cream-100 font-sans text-brown-700 min-h-screen flex flex-col">
+    {{-- Global Loading Indicator --}}
+    @include('components.loading-indicator')
+
     <!-- شريط التنقل -->
     @include('includes.nav')
 

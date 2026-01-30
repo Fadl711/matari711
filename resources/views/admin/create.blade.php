@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'إضافة منشور جديد - رواق العلوم الشرعية')
+@section('title', 'إضافة منشور جديد - د.محمد بن جميل المطري')
 
 @section('content')
     <section class="py-8 md:py-12 bg-cream-100 min-h-screen">

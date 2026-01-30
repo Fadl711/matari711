@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'تعديل: ' . $post->title . ' - رواق العلوم الشرعية')
+@section('title', 'تعديل: ' . $post->title . ' - د.محمد بن جميل المطري')
 
 @section('content')
     <section class="py-8 md:py-12 bg-cream-100 min-h-screen">

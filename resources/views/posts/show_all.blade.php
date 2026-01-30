@@ -90,7 +90,7 @@
                     <div class="relative">
                         <a href="{{ Route('posts.show', $item->id) }}">
                             @if ($item->imgart != null)
-                                <img class="w-full h-40 border border-t-bro object-cover"
+                                <img class="w-full h-40 border border-t-bro object-contain bg-gray-100"
                                     src="{{ url('book/' . $item->imgart) }}" alt="{{ $item->titleart }}">
                             @else
                                 <div

@@ -95,8 +95,8 @@
             <article class="bg-white rounded-2xl shadow-xl overflow-hidden">
                 <!-- صورة المنشور -->
                 @if ($post->image)
-                    <div class="relative h-64 md:h-96">
-                        <img src="{{ $post->image }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
+                    <div class="relative h-64 md:h-96 bg-gray-100">
+                        <img src="{{ $post->image }}" alt="{{ $post->title }}" class="w-full h-full object-contain">
                     </div>
                 @else
                     <div
@@ -208,10 +208,10 @@
                         @foreach ($relatedPosts as $related)
                             <a href="{{ route('posts.show', $related->id) }}"
                                 class="bg-white rounded-xl overflow-hidden shadow-lg card-hover group">
-                                <div class="h-32 overflow-hidden">
+                                <div class="h-32 overflow-hidden bg-gray-100">
                                     @if ($related->image)
                                         <img src="{{ $related->image }}" alt="{{ $related->title }}"
-                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                            class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
                                     @else
                                         <div class="w-full h-full bg-primary-600 flex items-center justify-center">
                                             <i class="fas fa-mosque text-white text-3xl opacity-50"></i>
