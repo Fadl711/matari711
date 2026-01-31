@@ -2,6 +2,11 @@
 @section('title')
     Home
 @endsection
+
+@php
+    $disableLoadingIndicator = true; // استخدام Progress Bar بدلاً من Loading Indicator
+@endphp
+
 @section('content')
     <!-- Upload Progress Bar Container -->
     <div id="uploadProgressContainer" style="display: none;"
@@ -30,7 +35,7 @@
         </div>
     </div>
 
-    <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data" id="uploadForm">
+    <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data" id="uploadForm" data-no-loading>
         @csrf
         <label for="states" class="sr-only">Choose a state</label>
 

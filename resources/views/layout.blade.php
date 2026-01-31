@@ -16,6 +16,16 @@
     <meta name="googlebot" content="index, follow">
     <link rel="canonical" href="{{ url()->current() }}">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('android-chrome-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('android-chrome-512x512.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+    <meta name="theme-color" content="#0d6f5a">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
@@ -224,8 +234,10 @@
 </head>
 
 <body class="bg-cream-100 font-sans text-brown-700 min-h-screen flex flex-col">
-    {{-- Global Loading Indicator --}}
-    @include('components.loading-indicator')
+    {{-- Global Loading Indicator (disabled for upload pages) --}}
+    @if (!isset($disableLoadingIndicator))
+        @include('components.loading-indicator')
+    @endif
 
     <!-- شريط التنقل -->
     @include('includes.nav')

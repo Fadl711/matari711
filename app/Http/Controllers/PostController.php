@@ -37,9 +37,9 @@ class PostController extends Controller
             'body' => 'nullable|string|max:50000',
             'section_id' => 'required|exists:sections,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp', // No size limit
-            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime', // No size limit
+            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime,video/x-msvideo,video/x-matroska,video/webm,video/3gpp,video/x-flv', // دعم أنواع أكثر
             'video_link' => 'nullable|url|max:500',
-            'audio' => 'nullable|mimetypes:audio/mpeg,audio/mp3,audio/wav,audio/x-wav', // No size limit
+            'audio' => 'nullable|mimes:mp3,wav,aac,ogg,flac,m4a,wma,opus,amr,3gp,aiff,ape,mka,webm,oga,spx,tta,wv', // قبول جميع أنواع الصوت
             'book' => 'nullable|mimes:pdf', // No size limit
         ], [
             'title.required' => 'العنوان مطلوب',
@@ -80,6 +80,9 @@ class PostController extends Controller
             $videoName = uniqid() . '_' . time() . '.' . $video->getClientOriginalExtension();
             $video->move(public_path('uploads/videos'), $videoName);
             $post->fileVid = $videoName;
+
+            // إرسال للمعالجة في الخلفية
+            $videoPath = 'uploads/videos/' . $videoName;
         } elseif ($request->video_link) {
             $post->link_video = $this->extractYoutubeId($request->video_link);
         }
@@ -90,6 +93,9 @@ class PostController extends Controller
             $audioName = uniqid() . '_' . time() . '.' . $audio->getClientOriginalExtension();
             $audio->move(public_path('uploads/audio'), $audioName);
             $post->fileAud = $audioName;
+
+            // إرسال للمعالجة في الخلفية
+            $audioPath = 'uploads/audio/' . $audioName;
         }
 
         // رفع الكتاب مع التحقق الأمني
@@ -102,8 +108,16 @@ class PostController extends Controller
 
         $post->save();
 
+        // إرسال الملفات للـ Queue
+        if (isset($videoPath)) {
+            \App\Jobs\ProcessMediaFile::dispatch($post->id, $videoPath, 'video', false);
+        }
+        if (isset($audioPath)) {
+            \App\Jobs\ProcessMediaFile::dispatch($post->id, $audioPath, 'audio', false);
+        }
+
         return redirect()->route('posts.section', $post->idsection)
-            ->with('success', 'تم إضافة المنشور بنجاح');
+            ->with('success', 'تم إضافة المنشور بنجاح! جاري معالجة الملفات في الخلفية...');
     }
 
     /**
@@ -145,9 +159,9 @@ class PostController extends Controller
             'body' => 'nullable|string|max:50000',
             'section_id' => 'required|exists:sections,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp', // No size limit
-            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime', // No size limit
+            'video' => 'nullable|mimetypes:video/mp4,video/avi,video/mpeg,video/quicktime,video/x-msvideo,video/x-matroska,video/webm,video/3gpp,video/x-flv', // دعم أنواع أكثر
             'video_link' => 'nullable|url|max:500',
-            'audio' => 'nullable|mimetypes:audio/mpeg,audio/mp3,audio/wav,audio/x-wav', // No size limit
+            'audio' => 'nullable|mimes:mp3,wav,aac,ogg,flac,m4a,wma,opus,amr,3gp,aiff,ape,mka,webm,oga,spx,tta,wv', // قبول جميع أنواع الصوت
             'book' => 'nullable|mimes:pdf', // No size limit
         ]);
 
@@ -221,6 +235,7 @@ class PostController extends Controller
             $videoName = uniqid() . '_' . time() . '.' . $video->getClientOriginalExtension();
             $video->move(public_path('uploads/videos'), $videoName);
             $post->fileVid = $videoName;
+            $videoPath = 'uploads/videos/' . $videoName;
         } elseif ($request->video_link) {
             $post->link_video = $this->extractYoutubeId($request->video_link);
         }
@@ -235,6 +250,7 @@ class PostController extends Controller
             $audioName = uniqid() . '_' . time() . '.' . $audio->getClientOriginalExtension();
             $audio->move(public_path('uploads/audio'), $audioName);
             $post->fileAud = $audioName;
+            $audioPath = 'uploads/audio/' . $audioName;
         }
 
         // تحديث الكتاب مع التحقق الأمني
@@ -251,8 +267,16 @@ class PostController extends Controller
 
         $post->save();
 
+        // إرسال الملفات للـ Queue
+        if (isset($videoPath)) {
+            \App\Jobs\ProcessMediaFile::dispatch($post->id, $videoPath, 'video', false);
+        }
+        if (isset($audioPath)) {
+            \App\Jobs\ProcessMediaFile::dispatch($post->id, $audioPath, 'audio', false);
+        }
+
         return redirect()->route('home')
-            ->with('success', 'تم تحديث المنشور بنجاح');
+            ->with('success', 'تم تحديث المنشور بنجاح! جاري معالجة الملفات...');
     }
 
     /**

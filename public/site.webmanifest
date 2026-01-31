@@ -1,0 +1,29 @@
+{
+  "name": "الشيخ الدكتور محمد المطري",
+  "short_name": "د.المطري",
+  "description": "الموقع الرسمي للشيخ الدكتور محمد بن علي بن جميل المطري - علوم شرعية وفتاوى دينية",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d6f5a",
+  "orientation": "portrait-primary",
+  "dir": "rtl",
+  "lang": "ar",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "religion", "reference"],
+  "prefer_related_applications": false
+}

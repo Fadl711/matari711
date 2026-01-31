@@ -1,4 +1,9 @@
 @extends('layout')
+
+@php
+    $disableLoadingIndicator = true; // استخدام Progress Bar بدلاً من Loading Indicator
+@endphp
+
 @section('content')
     <!-- Upload Progress Bar Container -->
     <div id="uploadProgressContainer" style="display: none;"
@@ -28,7 +33,7 @@
     </div>
 
     <form method="POST" action="{{ route('posts.update', $posts3->id) }}" id="uploadForm" class="w-1/2 mx-auto "
-        enctype="multipart/form-data">
+        enctype="multipart/form-data" data-no-loading>
         @csrf
         @method('PUT')
         <label for="states" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">نوع القسم </label>
