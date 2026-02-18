@@ -16,7 +16,7 @@
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">عن الشيخ</h1>
                 <div class="h-1 w-24 bg-gold-400 mx-auto mb-6"></div>
                 <h2 class="text-2xl md:text-3xl font-semibold text-cream-100">
-                 1   محمد بن علي بن جميل المطري
+                    محمد بن علي بن جميل المطري
                 </h2>
                 <p class="mt-4 text-lg text-cream-200">
                     دكتور في التفسير وعلوم القرآن الكريم
