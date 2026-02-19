@@ -13,7 +13,7 @@
             </div>
 
             <!-- القائمة للشاشات الكبيرة -->
-            <div class="hidden md:flex flex-wrap items-center gap-1 xl:gap-2">
+            <div class="hidden lg:flex flex-wrap items-center gap-1 xl:gap-2">
                 <a href="{{ route('home') }}"
                     class="px-2 xl:px-4 py-2 text-sm xl:text-base text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-1 xl:gap-2">
                     <i class="fas fa-home text-sm hidden xl:inline-block"></i>
@@ -21,26 +21,108 @@
                 </a>
 
                 @php
-                    $sections = \App\Models\Section::take(4)->get();
+                    $allNavSections = \App\Models\Section::whereNull('parent_id')
+                        ->orderBy('sort_order')
+                        ->with('children')
+                        ->get();
+                    $navSections = $allNavSections->take(4);
+                    $extraSections = $allNavSections->slice(4);
                 @endphp
 
-                @foreach ($sections as $section)
-                    <a href="{{ route('posts.section', $section->id) }}"
-                        class="px-2 xl:px-4 py-2 text-sm xl:text-base text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-1 xl:gap-2">
-                        <i class="fas {{ $section->icon }} text-sm hidden xl:inline-block"></i>
-                        <span>{{ $section->name }}</span>
-                    </a>
+                @foreach ($navSections as $navSection)
+                    @if ($navSection->children->count() > 0)
+                        <!-- قسم به أقسام فرعية -->
+                        <div x-data="{ dropOpen: false }" @click.away="dropOpen = false" class="relative">
+                            <div class="flex items-center">
+                                <a href="{{ route('posts.section', $navSection->id) }}"
+                                    class="px-2 xl:px-3 py-2 text-sm xl:text-base text-white hover:bg-primary-600 rounded-r-lg transition-colors duration-200 flex items-center gap-1 xl:gap-2">
+                                    <i class="fas {{ $navSection->icon }} text-sm hidden xl:inline-block"></i>
+                                    <span>{{ $navSection->name }}</span>
+                                </a>
+                                <button @click.prevent="dropOpen = !dropOpen"
+                                    class="px-1.5 py-2 text-white hover:bg-primary-600 rounded-l-lg transition-colors duration-200">
+                                    <i class="fas fa-chevron-down text-xs transition-transform duration-200"
+                                        :class="dropOpen ? 'rotate-180' : ''"></i>
+                                </button>
+                            </div>
+                            <div x-show="dropOpen" x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 scale-95"
+                                x-transition:enter-end="opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-100"
+                                x-transition:leave-start="opacity-100 scale-100"
+                                x-transition:leave-end="opacity-0 scale-95" class="absolute top-full right-0 pt-1 z-50"
+                                style="display: none;">
+                                <div
+                                    class="bg-white rounded-xl shadow-xl overflow-hidden min-w-[200px] border border-cream-200">
+                                    <a href="{{ route('posts.section', $navSection->id) }}"
+                                        class="block px-4 py-3 text-brown-700 hover:bg-primary-50 hover:text-primary-600 transition-colors border-b border-cream-100 font-bold text-sm">
+                                        <i class="fas fa-th-large ml-2 text-primary-500"></i>
+                                        عرض الكل
+                                    </a>
+                                    @foreach ($navSection->children as $child)
+                                        <a href="{{ route('posts.section', $child->id) }}"
+                                            class="block px-4 py-3 text-brown-600 hover:bg-primary-50 hover:text-primary-600 transition-colors text-sm border-b border-cream-50 last:border-0">
+                                            <i class="fas {{ $child->icon }} ml-2 text-brown-300"></i>
+                                            {{ $child->name }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <a href="{{ route('posts.section', $navSection->id) }}"
+                            class="px-2 xl:px-4 py-2 text-sm xl:text-base text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-1 xl:gap-2">
+                            <i class="fas {{ $navSection->icon }} text-sm hidden xl:inline-block"></i>
+                            <span>{{ $navSection->name }}</span>
+                        </a>
+                    @endif
                 @endforeach
+
+                {{-- زر "المزيد" للأقسام الإضافية --}}
+                @if ($extraSections->count() > 0)
+                    <div x-data="{ moreOpen: false }" @click.away="moreOpen = false" class="relative">
+                        <button @click="moreOpen = !moreOpen"
+                            class="px-3 xl:px-4 py-2 text-sm xl:text-base text-gold-300 hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-1">
+                            <i class="fas fa-ellipsis-h"></i>
+                            <span>المزيد</span>
+                            <i class="fas fa-chevron-down text-xs transition-transform duration-200"
+                                :class="moreOpen ? 'rotate-180' : ''"></i>
+                        </button>
+                        <div x-show="moreOpen" x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-100"
+                            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                            class="absolute top-full right-0 pt-1 z-50" style="display: none;">
+                            <div
+                                class="bg-white rounded-xl shadow-xl overflow-hidden min-w-[220px] border border-cream-200">
+                                @foreach ($extraSections as $extra)
+                                    <a href="{{ route('posts.section', $extra->id) }}"
+                                        class="block px-4 py-3 text-brown-700 hover:bg-primary-50 hover:text-primary-600 transition-colors text-sm border-b border-cream-100 last:border-0 font-medium">
+                                        <i class="fas {{ $extra->icon }} ml-2 text-primary-400"></i>
+                                        {{ $extra->name }}
+                                    </a>
+                                    @foreach ($extra->children as $child)
+                                        <a href="{{ route('posts.section', $child->id) }}"
+                                            class="block px-8 py-2 text-brown-500 hover:bg-primary-50 hover:text-primary-600 transition-colors text-xs border-b border-cream-50 last:border-0">
+                                            <i class="fas fa-angle-left ml-1"></i>
+                                            {{ $child->name }}
+                                        </a>
+                                    @endforeach
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
                 <a href="{{ route('about') }}"
                     class="px-2 xl:px-4 py-2 text-sm xl:text-base text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-1 xl:gap-2">
                     <i class="fas fa-user-graduate text-sm hidden xl:inline-block"></i>
-                    <span>عن الشيخ</span>
+                    <span>تعريف بالشيخ</span>
                 </a>
             </div>
 
             <!-- أزرار المستخدم -->
-            <div class="hidden md:flex items-center space-x-3 rtl:space-x-reverse">
+            <div class="hidden lg:flex items-center space-x-3 rtl:space-x-reverse">
                 @auth
                     @if (Auth::user()->usertype == 'admin' || Auth::user()->usertype == 'admin2')
                         <a href="{{ route('dashboard') }}"
@@ -55,7 +137,7 @@
             </div>
 
             <!-- زر القائمة للموبايل -->
-            <div class="md:hidden flex items-center">
+            <div class="lg:hidden flex items-center">
                 <button @click="open = !open" class="text-white p-2 rounded-lg hover:bg-primary-600 transition-colors">
                     <i x-show="!open" class="fas fa-bars text-xl"></i>
                     <i x-show="open" class="fas fa-times text-xl" style="display: none;"></i>
@@ -68,7 +150,7 @@
     <div x-show="open" x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden bg-primary-600" style="display: none;">
+        x-transition:leave-end="opacity-0 -translate-y-2" class="lg:hidden bg-primary-600" style="display: none;">
         <div class="px-4 py-3 space-y-2">
             <a href="{{ route('home') }}"
                 class="block px-4 py-3 text-white hover:bg-primary-700 rounded-lg transition-colors">
@@ -76,18 +158,45 @@
                 الرئيسية
             </a>
 
-            @foreach ($sections as $section)
-                <a href="{{ route('posts.section', $section->id) }}"
-                    class="block px-4 py-3 text-white hover:bg-primary-700 rounded-lg transition-colors">
-                    <i class="fas {{ $section->icon }} ml-2"></i>
-                    {{ $section->name }}
-                </a>
+            @foreach ($allNavSections as $navSection)
+                @if ($navSection->children->count() > 0)
+                    <!-- قسم رئيسي مع فرعية - accordion -->
+                    <div x-data="{ subOpen: false }">
+                        <div class="flex items-center justify-between">
+                            <a href="{{ route('posts.section', $navSection->id) }}"
+                                class="flex-grow px-4 py-3 text-white hover:bg-primary-700 rounded-lg transition-colors font-bold">
+                                <i class="fas {{ $navSection->icon }} ml-2"></i>
+                                {{ $navSection->name }}
+                            </a>
+                            <button @click="subOpen = !subOpen"
+                                class="px-4 py-3 text-white hover:bg-primary-700 rounded-lg">
+                                <i class="fas fa-chevron-down text-xs transition-transform duration-200"
+                                    :class="subOpen ? 'rotate-180' : ''"></i>
+                            </button>
+                        </div>
+                        <div x-show="subOpen" x-transition class="pr-4" style="display: none;">
+                            @foreach ($navSection->children as $child)
+                                <a href="{{ route('posts.section', $child->id) }}"
+                                    class="block px-8 py-2 text-white/80 hover:bg-primary-700 rounded-lg transition-colors text-sm">
+                                    <i class="fas fa-angle-left ml-1"></i>
+                                    {{ $child->name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @else
+                    <a href="{{ route('posts.section', $navSection->id) }}"
+                        class="block px-4 py-3 text-white hover:bg-primary-700 rounded-lg transition-colors font-bold">
+                        <i class="fas {{ $navSection->icon }} ml-2"></i>
+                        {{ $navSection->name }}
+                    </a>
+                @endif
             @endforeach
 
             <a href="{{ route('about') }}"
                 class="block px-4 py-3 text-white hover:bg-primary-700 rounded-lg transition-colors">
                 <i class="fas fa-user-graduate ml-2"></i>
-                عن الشيخ
+                تعريف بالشيخ
             </a>
 
             <hr class="border-primary-400 my-2">

@@ -41,7 +41,7 @@
                     @endforeach
                     <li>
                         <a href="{{ route('about') }}" class="text-primary-200 hover:text-gold-400 transition-colors">
-                            عن الشيخ
+                            تعريف بالشيخ
                         </a>
                     </li>
                 </ul>

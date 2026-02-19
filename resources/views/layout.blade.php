@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Primary Meta Tags -->
     <title>@yield('title', 'الشيخ الدكتور محمد المطري - موقع رسمي للعلوم الشرعية')</title>
@@ -133,16 +134,93 @@
                 background-position: 200% center;
             }
         }
+
+        /* تنسيقات محتوى Quill */
+        .quill-content h1 {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 0.5em 0;
+        }
+
+        .quill-content h2 {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 0.5em 0;
+        }
+
+        .quill-content h3 {
+            font-size: 1.17em;
+            font-weight: bold;
+            margin: 0.5em 0;
+        }
+
+        .quill-content blockquote {
+            border-right: 4px solid #0d6f5a;
+            padding-right: 16px;
+            margin: 1em 0;
+            color: #5a4a3a;
+            font-style: italic;
+            background: #faf7f2;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        .quill-content ul,
+        .quill-content ol {
+            padding-right: 2em;
+            margin: 0.5em 0;
+        }
+
+        .quill-content a {
+            color: #0d6f5a;
+            text-decoration: underline;
+        }
+
+        .quill-content a:hover {
+            color: #094d3f;
+        }
+
+        .quill-content .ql-align-center {
+            text-align: center;
+        }
+
+        .quill-content .ql-align-right {
+            text-align: right;
+        }
+
+        .quill-content .ql-align-left {
+            text-align: left;
+        }
+
+        .quill-content .ql-size-small {
+            font-size: 0.75em;
+        }
+
+        .quill-content .ql-size-large {
+            font-size: 1.5em;
+        }
+
+        .quill-content .ql-size-huge {
+            font-size: 2.5em;
+        }
     </style>
 
-    <!-- SweetAlert2 & Toastify -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    @stack('styles')
+
+    <!-- SweetAlert2 & Toastify (Local) -->
+    <script src="{{ asset('lib/sweetalert2.all.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('lib/toastify.min.css') }}">
+    <script type="text/javascript" src="{{ asset('lib/toastify.min.js') }}"></script>
 
     <script>
         // دالة لعرض التنبيهات (Toasts)
         function showToast(message, type = 'success') {
+            if (typeof Toastify === 'undefined') {
+                console.warn('Toastify not loaded locally, trying CDN fallback...');
+                // Fallback implementation or just console log
+                console.log(message);
+                return;
+            }
             Toastify({
                 text: message,
                 duration: 3000,
@@ -213,9 +291,9 @@
         }
     </script>
 
-    <!-- Plyr (مشغل الوسائط الاحترافي) -->
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <!-- Plyr (مشغل الوسائط الاحترافي) - Local -->
+    <link rel="stylesheet" href="{{ asset('lib/plyr.css') }}" />
+    <script src="{{ asset('lib/plyr.polyfilled.js') }}"></script>
     <style>
         /* تخصيص ألوان Plyr لتناسب الموقع */
         :root {

@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'عن الشيخ - د.محمد بن جميل المطري')
+@section('title', 'تعريف بالشيخ - د.محمد بن جميل المطري')
 
 @section('content')
     <!-- Hero Section -->
@@ -13,13 +13,13 @@
                 <div class="mb-6">
                     <i class="fas fa-mosque text-6xl md:text-7xl text-gold-400 opacity-90"></i>
                 </div>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">عن الشيخ</h1>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">تعريف بالشيخ</h1>
                 <div class="h-1 w-24 bg-gold-400 mx-auto mb-6"></div>
                 <h2 class="text-2xl md:text-3xl font-semibold text-cream-100">
                     محمد بن علي بن جميل المطري
                 </h2>
                 <p class="mt-4 text-lg text-cream-200">
-                    دكتور في التفسير وعلوم القرآن الكريم
+                    دكتوراه في التفسير وعلوم القرآن الكريم
                 </p>
             </div>
         </div>

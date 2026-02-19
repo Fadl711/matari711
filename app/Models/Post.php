@@ -20,9 +20,14 @@ class Post extends Model
         'link_video',
         'fileAud',
         'books',
+        'is_pinned',
     ];
 
     protected $guarded = ['id', 'views'];
+
+    protected $casts = [
+        'is_pinned' => 'boolean',
+    ];
 
     /**
      * العلاقة مع القسم

@@ -70,8 +70,8 @@
                         <i class="fas fa-file-alt ml-1 text-primary-500"></i>
                         المحتوى
                     </label>
-                    <textarea name="body" id="tinymce-body" rows="8"
-                        class="w-full rounded-xl border-cream-300 focus:border-primary-500 focus:ring focus:ring-primary-200 resize-none">{{ old('body', $post->body) }}</textarea>
+                    <input type="hidden" name="body" id="bodyInput">
+                    <div id="quill-editor" style="min-height: 250px; direction: rtl;">{!! old('body', $post->body) !!}</div>
                 </div>
 
                 <!-- الصورة الحالية -->
@@ -201,6 +201,81 @@
             </form>
         </div>
     </section>
+
+    @push('styles')
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+        <style>
+            .ql-editor {
+                font-family: 'Tajawal', sans-serif;
+                font-size: 16px;
+                line-height: 2;
+                min-height: 250px;
+            }
+
+            .ql-toolbar.ql-snow {
+                border-radius: 12px 12px 0 0;
+                border-color: #e8e0d4;
+                background: #faf7f2;
+            }
+
+            .ql-container.ql-snow {
+                border-radius: 0 0 12px 12px;
+                border-color: #e8e0d4;
+            }
+
+            .ql-snow .ql-picker {
+                text-align: right;
+            }
+        </style>
+    @endpush
+
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+        <script>
+            // تهيئة محرر النصوص Quill
+            const quill = new Quill('#quill-editor', {
+                theme: 'snow',
+                placeholder: 'اكتب محتوى المنشور هنا...',
+                modules: {
+                    toolbar: [
+                        [{
+                            'header': [1, 2, 3, false]
+                        }],
+                        [{
+                            'size': ['small', false, 'large', 'huge']
+                        }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{
+                            'color': []
+                        }, {
+                            'background': []
+                        }],
+                        [{
+                            'align': []
+                        }],
+                        [{
+                            'list': 'ordered'
+                        }, {
+                            'list': 'bullet'
+                        }],
+                        [{
+                            'indent': '-1'
+                        }, {
+                            'indent': '+1'
+                        }],
+                        ['blockquote'],
+                        ['link'],
+                        ['clean']
+                    ]
+                }
+            });
+
+            // عند إرسال الفورم، انقل المحتوى للـ hidden input
+            document.querySelector('form[action*="posts"]').addEventListener('submit', function() {
+                document.getElementById('bodyInput').value = quill.root.innerHTML;
+            });
+        </script>
+    @endpush
 
     <script>
         function removeImage() {

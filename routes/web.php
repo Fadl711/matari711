@@ -26,10 +26,13 @@ Route::get('/section/{id}', [SectionController::class, 'showSection'])->name('po
 // عرض منشور معين
 Route::get('/post/{id}', [PostController::class, 'show'])->name('posts.show');
 
+// عرض كتاب PDF في المتصفح
+Route::get('/post/{id}/book', [PostController::class, 'viewBook'])->name('posts.viewBook');
+
 // البحث
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
-// صفحة عن الشيخ
+// صفحة تعريف بالشيخ
 Route::get('/about', function () {
     return view('about');
 })->name('about');
@@ -48,12 +51,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::post('/posts/{id}/toggle-pin', [PostController::class, 'togglePin'])->name('posts.togglePin');
 
     // إدارة الأقسام
     Route::get('/sections/create', [SectionController::class, 'create'])->name('sections.create');
     Route::post('/sections', [SectionController::class, 'store'])->name('sections.store');
     Route::put('/sections/{id}', [SectionController::class, 'update'])->name('sections.update');
     Route::delete('/sections/{id}', [SectionController::class, 'destroy'])->name('sections.destroy');
+    Route::post('/sections/reorder', [SectionController::class, 'reorder'])->name('sections.reorder');
 
     // إدارة المستخدمين
     Route::post('/user/{id}', function ($id, \Illuminate\Http\Request $request) {

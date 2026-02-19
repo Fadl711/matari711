@@ -111,7 +111,12 @@
                     @auth
                         @if (Auth::user()->usertype == 'admin' || Auth::user()->usertype == 'admin2')
                             <!-- أزرار التحكم للمشرفين -->
-                            <div class="mb-6 flex gap-3">
+                            <div class="mb-6 flex gap-3 flex-wrap">
+                                <button type="button" id="pinBtn" onclick="togglePin({{ $post->id }})"
+                                    class="{{ $post->is_pinned ? 'bg-gold-500 hover:bg-gold-600 text-primary-900' : 'bg-gray-500 hover:bg-gray-600 text-white' }} px-4 py-2 rounded-lg transition-colors inline-flex items-center gap-2">
+                                    <i class="fas fa-thumbtack"></i>
+                                    <span id="pinText">{{ $post->is_pinned ? 'إلغاء التثبيت' : 'تثبيت في الأعلى' }}</span>
+                                </button>
                                 <a href="{{ route('admin.posts.edit', $post->id) }}"
                                     class="inline-flex items-center gap-2 bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
                                     <i class="fas fa-edit"></i>
@@ -133,8 +138,8 @@
 
                     <!-- النص الرئيسي -->
                     @if ($post->body)
-                        <div class="prose prose-lg max-w-none text-brown-700 leading-loose">
-                            {!! nl2br(e($post->body)) !!}
+                        <div class="prose prose-lg max-w-none text-brown-700 leading-loose quill-content">
+                            {!! $post->body !!}
                         </div>
                     @endif
 
@@ -191,7 +196,7 @@
                             </h3>
 
                             <a href="{{ asset('uploads/books/' . $post->books) }}" download
-                                class="inline-flex items-center gap-3 bg-primary-500 text-white px-6 py-3 rounded-xl hover:bg-primary-600 transition-colors">
+                                class="inline-flex items-center gap-3 bg-primary-500 text-white px-6 py-3 rounded-xl hover:bg-primary-600 transition-colors shadow-md transform hover:-translate-y-1">
                                 <i class="fas fa-download"></i>
                                 <span>تحميل الكتاب (PDF)</span>
                             </a>
@@ -234,6 +239,36 @@
 
     @push('scripts')
         <script>
+            // تثبيت/إلغاء تثبيت المنشور
+            function togglePin(postId) {
+                fetch(`/admin/posts/${postId}/toggle-pin`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            const btn = document.getElementById('pinBtn');
+                            const text = document.getElementById('pinText');
+                            if (data.is_pinned) {
+                                btn.classList.remove('bg-gray-500', 'hover:bg-gray-600', 'text-white');
+                                btn.classList.add('bg-gold-500', 'hover:bg-gold-600', 'text-primary-900');
+                                text.textContent = 'إلغاء التثبيت';
+                            } else {
+                                btn.classList.remove('bg-gold-500', 'hover:bg-gold-600', 'text-primary-900');
+                                btn.classList.add('bg-gray-500', 'hover:bg-gray-600', 'text-white');
+                                text.textContent = 'تثبيت في الأعلى';
+                            }
+                            showToast(data.message, 'success');
+                        }
+                    })
+                    .catch(err => console.error(err));
+            }
+
             document.addEventListener('DOMContentLoaded', function() {
                 const postId = {{ $post->id }};
                 const csrfToken = '{{ csrf_token() }}';

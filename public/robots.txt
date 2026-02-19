@@ -28,7 +28,7 @@ Allow: /css/
 Allow: /js/
 
 # Sitemap location
-Sitemap: https://mat.ytravelio.com/sitemap.xml
+Sitemap: https://almatari.org/sitemap.xml
 
 # Crawl delay (seconds)
 Crawl-delay: 1

@@ -297,6 +297,70 @@ class PostController extends Controller
     }
 
     /**
+     * عرض كتاب PDF في المتصفح (بدون تحميل)
+     */
+    public function viewBook($id)
+    {
+        $post = Post::findOrFail($id);
+
+        if (!$post->books) {
+            abort(404, 'لا يوجد كتاب مرفق');
+        }
+
+        // تحديد المسار الصحيح
+        $filename = $post->books;
+        $paths = [
+            public_path("uploads/books/{$filename}"),
+            public_path("book/{$filename}"),
+            // محاولة مسار بديل في حال وجود مشكلة في الفواصل
+            public_path("uploads\\books\\{$filename}"),
+            public_path("book\\{$filename}"),
+        ];
+
+        $filePath = null;
+        foreach ($paths as $p) {
+            if (file_exists($p)) {
+                $filePath = $p;
+                break;
+            }
+        }
+
+        if (!$filePath) {
+            // في حال الفشل، ارجع رسالة خطأ واضحة
+            return response("File not found: " . implode(', ', $paths), 404);
+        }
+
+        // استخدام readfile لتجنب مشاكل استجابة لارافل مع الملفات الكبيرة أحياناً في السيرفر المحلي
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
+        header('Content-Length: ' . filesize($filePath));
+        header('Cache-Control: private, max-age=0, must-revalidate');
+        header('Pragma: public');
+
+        // تنظيف المخرجات السابقة لتجنب تلف ملف PDF
+        if (ob_get_level()) ob_end_clean();
+
+        readfile($filePath);
+        exit;
+    }
+
+    /**
+     * تثبيت/إلغاء تثبيت منشور
+     */
+    public function togglePin($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->is_pinned = !$post->is_pinned;
+        $post->save();
+
+        return response()->json([
+            'success' => true,
+            'is_pinned' => $post->is_pinned,
+            'message' => $post->is_pinned ? 'تم تثبيت المنشور بنجاح' : 'تم إلغاء تثبيت المنشور'
+        ]);
+    }
+
+    /**
      * استخراج معرف يوتيوب من الرابط
      */
     private function extractYoutubeId($url)

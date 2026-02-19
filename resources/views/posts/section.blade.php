@@ -21,6 +21,53 @@
         </div>
     </section>
 
+    <!-- الأقسام الفرعية -->
+    @if ($section->is_parent && $section->children->count() > 0)
+        <section class="bg-white border-b border-cream-200 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 py-4">
+                <div class="flex items-center gap-3 flex-wrap justify-center">
+                    <!-- زر الكل -->
+                    <a href="{{ route('posts.section', $section->id) }}"
+                        class="px-5 py-2 rounded-full text-sm font-medium transition-all
+                        {{ !request('sub') ? 'bg-primary-600 text-white shadow-md' : 'bg-cream-100 text-brown-600 hover:bg-cream-200' }}">
+                        <i class="fas fa-th-large ml-1"></i>
+                        الكل ({{ $posts->total() }})
+                    </a>
+
+                    <!-- أزرار الأقسام الفرعية -->
+                    @foreach ($section->children as $child)
+                        <a href="{{ route('posts.section', $child->id) }}"
+                            class="px-5 py-2 rounded-full text-sm font-medium transition-all
+                            bg-cream-100 text-brown-600 hover:bg-primary-100 hover:text-primary-700">
+                            <i class="fas {{ $child->icon }} ml-1"></i>
+                            {{ $child->name }}
+                            <span class="text-xs opacity-70">({{ $child->posts()->count() }})</span>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
+    <!-- إذا كان قسم فرعي: اعرض مسار التصفح -->
+    @if ($section->is_child)
+        <section class="bg-white border-b border-cream-200">
+            <div class="max-w-7xl mx-auto px-4 py-3">
+                <nav class="flex items-center gap-2 text-sm text-brown-500">
+                    <a href="{{ route('home') }}" class="hover:text-primary-600">
+                        <i class="fas fa-home"></i> الرئيسية
+                    </a>
+                    <i class="fas fa-chevron-left text-xs"></i>
+                    <a href="{{ route('posts.section', $section->parent->id) }}" class="hover:text-primary-600">
+                        {{ $section->parent->name }}
+                    </a>
+                    <i class="fas fa-chevron-left text-xs"></i>
+                    <span class="text-primary-600 font-medium">{{ $section->name }}</span>
+                </nav>
+            </div>
+        </section>
+    @endif
+
     <!-- المحتوى الرئيسي -->
     <section class="py-12 md:py-16 bg-cream-100">
         <div class="max-w-7xl mx-auto px-4">
@@ -56,11 +103,25 @@
                                     </div>
                                 @endif
 
+                                {{-- شارة المثبّت --}}
+                                @if ($post->is_pinned)
+                                    <div
+                                        class="absolute top-4 right-4 bg-gold-500 text-primary-900 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 shadow-lg">
+                                        <i class="fas fa-thumbtack"></i> مثبّت
+                                    </div>
+                                @endif
+
                                 @auth
                                     @if (Auth::user()->usertype == 'admin' || Auth::user()->usertype == 'admin2')
                                         <!-- أزرار التحكم -->
                                         <div class="absolute top-4 left-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity"
                                             onclick="event.stopPropagation()">
+                                            {{-- زر التثبيت --}}
+                                            <button type="button" onclick="togglePin({{ $post->id }}, this)"
+                                                class="w-10 h-10 {{ $post->is_pinned ? 'bg-gold-500 hover:bg-gold-600' : 'bg-gray-500 hover:bg-gray-600' }} rounded-full flex items-center justify-center text-white shadow-lg transition-colors"
+                                                title="{{ $post->is_pinned ? 'إلغاء التثبيت' : 'تثبيت في الأعلى' }}">
+                                                <i class="fas fa-thumbtack"></i>
+                                            </button>
                                             <a href="{{ route('admin.posts.edit', $post->id) }}"
                                                 class="w-10 h-10 bg-yellow-500 hover:bg-yellow-600 rounded-full flex items-center justify-center text-white shadow-lg">
                                                 <i class="fas fa-edit"></i>
@@ -128,4 +189,37 @@
             @endif
         </div>
     </section>
+
+    @push('scripts')
+        <script>
+            function togglePin(postId, btn) {
+                fetch(`/admin/posts/${postId}/toggle-pin`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            if (data.is_pinned) {
+                                btn.classList.remove('bg-gray-500', 'hover:bg-gray-600');
+                                btn.classList.add('bg-gold-500', 'hover:bg-gold-600');
+                                btn.title = 'إلغاء التثبيت';
+                            } else {
+                                btn.classList.remove('bg-gold-500', 'hover:bg-gold-600');
+                                btn.classList.add('bg-gray-500', 'hover:bg-gray-600');
+                                btn.title = 'تثبيت في الأعلى';
+                            }
+                            showToast(data.message, 'success');
+                            // إعادة تحميل الصفحة بعد ثانية لتحديث الترتيب
+                            setTimeout(() => location.reload(), 1000);
+                        }
+                    })
+                    .catch(err => console.error(err));
+            }
+        </script>
+    @endpush
 @endsection
