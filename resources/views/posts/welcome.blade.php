@@ -131,7 +131,7 @@
                         </div>
                         <div>
                             <h2 class="text-2xl md:text-3xl font-bold text-brown-800 font-arabic">مختارات مميزة</h2>
-                            <p class="text-brown-500 text-sm mt-1">نخبة من أهم المقالات والدروس</p>
+                            <p class="text-brown-500 text-sm mt-1"> من أهم المقالات والدروس</p>
                         </div>
                     </div>
 
