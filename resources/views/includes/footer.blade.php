@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <p class="text-primary-200 text-sm leading-relaxed">
-                    الموقع الرسمي للشيخ الدكتور محمد بن علي بن جميل المطري لنشر العلم النافع
+                    الموقع الرسمي للشيخ الدكتور محمد بن علي بن جميل المطري - كتب ومقالات وفتاوى ودروس صوتية ومرئية
                 </p>
             </div>
 
@@ -29,7 +29,10 @@
                         </a>
                     </li>
                     @php
-                        $footerSections = \App\Models\Section::take(4)->get();
+                        $footerSections = \App\Models\Section::whereNull('parent_id')
+                            ->orderBy('sort_order')
+                            ->take(4)
+                            ->get();
                     @endphp
                     @foreach ($footerSections as $section)
                         <li>
@@ -60,9 +63,13 @@
                         class="w-10 h-10 lg:w-12 lg:h-12 bg-primary-700 hover:bg-green-600 rounded-full flex items-center justify-center transition-colors">
                         <i class="fab fa-whatsapp text-base lg:text-xl"></i>
                     </a>
-                    <a href="#"
+                    <a href="https://www.youtube.com/channel/UCBK-wRq3_Xkp3K3Rl01FN3Q" target="_blank"
                         class="w-10 h-10 lg:w-12 lg:h-12 bg-primary-700 hover:bg-red-600 rounded-full flex items-center justify-center transition-colors">
                         <i class="fab fa-youtube text-base lg:text-xl"></i>
+                    </a>
+                    <a href="https://t.me/Matari63" target="_blank"
+                        class="w-10 h-10 lg:w-12 lg:h-12 bg-primary-700 hover:bg-sky-500 rounded-full flex items-center justify-center transition-colors">
+                        <i class="fab fa-telegram-plane text-base lg:text-xl"></i>
                     </a>
                 </div>
 

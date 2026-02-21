@@ -361,22 +361,28 @@
                         له نشاطات علمية ودعوية على منصات التواصل الاجتماعي:
                     </p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="bg-red-50 rounded-xl p-4 text-center">
+                        <a href="https://www.youtube.com/channel/UCBK-wRq3_Xkp3K3Rl01FN3Q" target="_blank"
+                            class="bg-red-50 rounded-xl p-4 text-center hover:bg-red-100 transition-colors">
                             <i class="fab fa-youtube text-4xl text-red-600 mb-2"></i>
                             <p class="font-semibold text-brown-700">يوتيوب</p>
-                        </div>
-                        <div class="bg-blue-50 rounded-xl p-4 text-center">
+                        </a>
+                        <a href="https://www.facebook.com/people/%D9%85%D8%AD%D9%85%D8%AF-%D8%A7%D9%84%D9%85%D8%B7%D8%B1%D9%8I-%D8%A3%D8%A8%D9%88-%D8%A7%D9%84%D8%AD%D8%A7%D8%B1%D8%AB/100001945734611/"
+                            target="_blank"
+                            class="bg-blue-50 rounded-xl p-4 text-center hover:bg-blue-100 transition-colors">
                             <i class="fab fa-facebook text-4xl text-blue-600 mb-2"></i>
                             <p class="font-semibold text-brown-700">فيسبوك</p>
-                        </div>
-                        <div class="bg-sky-50 rounded-xl p-4 text-center">
+                        </a>
+                        <a href="https://t.me/Matari63" target="_blank"
+                            class="bg-sky-50 rounded-xl p-4 text-center hover:bg-sky-100 transition-colors">
                             <i class="fab fa-telegram text-4xl text-sky-500 mb-2"></i>
-                            <p class="font-semibold text-brown-700">تيليجرام</p>
-                        </div>
-                        <div class="bg-green-50 rounded-xl p-4 text-center">
+                            <p class="font-semibold text-brown-700 text-sm">تيليجرام</p>
+                            <p class="text-xs text-sky-600 mt-1">@Matari63</p>
+                        </a>
+                        <a href="https://wa.me/967777175927" target="_blank"
+                            class="bg-green-50 rounded-xl p-4 text-center hover:bg-green-100 transition-colors">
                             <i class="fab fa-whatsapp text-4xl text-green-600 mb-2"></i>
                             <p class="font-semibold text-brown-700">واتساب</p>
-                        </div>
+                        </a>
                     </div>
                 </div>
 

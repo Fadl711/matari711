@@ -39,7 +39,7 @@
                         <span class="font-bold">محمد بن علي بن جميل المطري</span>
                     </p>
                     <p class="text-primary-100 text-base md:text-lg max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed">
-                        لنشر العلم النافع من مقالات وكتب وفتاوى ودروس صوتية ومرئية
+                        كتب ومقالات وفتاوى ودروس صوتية ومرئية
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                         <a href="#sections"
@@ -160,10 +160,14 @@
                                 onclick="window.location='{{ route('posts.show', $post->id) }}'">
                                 <div class="relative h-56 overflow-hidden bg-gray-100">
                                     @if ($post->image)
+                                        <!-- خلفية مموهة لملء الفراغات -->
+                                        <div class="absolute inset-0 scale-110 blur-xl opacity-50 bg-center bg-cover"
+                                            style="background-image: url('{{ $post->image }}')"></div>
                                         <img src="{{ $post->image }}" alt="{{ $post->title }}"
-                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                            class="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
                                     @else
-                                        <div class="w-full h-full bg-primary-600 flex items-center justify-center">
+                                        <div
+                                            class="relative z-10 w-full h-full bg-primary-600 flex items-center justify-center">
                                             <i class="fas fa-mosque text-white text-5xl opacity-50"></i>
                                         </div>
                                     @endif
@@ -237,7 +241,7 @@
                             </div>
                             <div>
                                 <h2 class="text-lg md:text-xl font-bold text-brown-700">{{ $section->name }}</h2>
-                                <p class="text-xs text-brown-400">{{ $section->posts->count() }} منشور</p>
+                                <p class="text-xs text-brown-400">{{ $section->allPosts()->count() }} منشور</p>
                             </div>
                         </div>
                         <a href="{{ route('posts.section', $section->id) }}"
@@ -248,7 +252,7 @@
                         </a>
                     </div>
 
-                    @php $sectionPosts = $section->posts->take(5); @endphp
+                    @php $sectionPosts = $section->allPosts()->latest()->take(5)->get(); @endphp
 
                     @if ($sectionPosts->count() >= 3)
                         <!-- تصميم: بطاقة كبيرة يسار + بطاقتين يمين -->
@@ -259,11 +263,15 @@
                                 onclick="window.location='{{ route('posts.show', $sectionPosts[0]->id) }}'">
                                 <div class="relative h-56 md:h-72 overflow-hidden bg-gray-100">
                                     @if ($sectionPosts[0]->image)
+                                        <!-- خلفية مموهة لملء الفراغات -->
+                                        <div class="absolute inset-0 scale-110 blur-xl opacity-50 bg-center bg-cover"
+                                            style="background-image: url('{{ $sectionPosts[0]->image }}')"></div>
                                         <img src="{{ $sectionPosts[0]->image }}" alt="{{ $sectionPosts[0]->title }}"
                                             loading="lazy"
-                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                            class="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-transform duration-700">
                                     @else
-                                        <div class="w-full h-full islamic-gradient flex items-center justify-center">
+                                        <div
+                                            class="relative z-10 w-full h-full islamic-gradient flex items-center justify-center">
                                             <i class="fas fa-mosque text-white text-6xl opacity-30"></i>
                                         </div>
                                     @endif
@@ -328,10 +336,14 @@
                                         <!-- صورة مصغرة -->
                                         <div class="relative w-28 sm:w-32 flex-shrink-0 overflow-hidden bg-gray-100">
                                             @if ($post->image)
+                                                <!-- خلفية مموهة لملء الفراغات -->
+                                                <div class="absolute inset-0 scale-110 blur-lg opacity-40 bg-center bg-cover"
+                                                    style="background-image: url('{{ $post->image }}')"></div>
                                                 <img src="{{ $post->image }}" alt="{{ $post->title }}" loading="lazy"
-                                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                                    class="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
                                             @else
-                                                <div class="w-full h-full bg-primary-600 flex items-center justify-center">
+                                                <div
+                                                    class="relative z-10 w-full h-full bg-primary-600 flex items-center justify-center">
                                                     <i class="fas fa-mosque text-white text-2xl opacity-50"></i>
                                                 </div>
                                             @endif
@@ -377,10 +389,14 @@
                                     onclick="window.location='{{ route('posts.show', $post->id) }}'">
                                     <div class="relative h-48 overflow-hidden bg-gray-100">
                                         @if ($post->image)
+                                            <!-- خلفية مموهة لملء الفراغات -->
+                                            <div class="absolute inset-0 scale-110 blur-xl opacity-50 bg-center bg-cover"
+                                                style="background-image: url('{{ $post->image }}')"></div>
                                             <img src="{{ $post->image }}" alt="{{ $post->title }}" loading="lazy"
-                                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                                class="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
                                         @else
-                                            <div class="w-full h-full bg-primary-600 flex items-center justify-center">
+                                            <div
+                                                class="relative z-10 w-full h-full bg-primary-600 flex items-center justify-center">
                                                 <i class="fas fa-mosque text-white text-5xl opacity-50"></i>
                                             </div>
                                         @endif

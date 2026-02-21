@@ -127,8 +127,12 @@ class PostController extends Controller
     {
         $post = Post::with(['section', 'comments.user'])->findOrFail($id);
 
-        // زيادة عدد المشاهدات
-        $post->increment('views');
+        // زيادة عدد المشاهدات مع منع التكرار في نفس الجلسة
+        $viewed = session()->get('viewed_posts', []);
+        if (!in_array($id, $viewed)) {
+            $post->increment('views');
+            session()->push('viewed_posts', $id);
+        }
 
         $relatedPosts = Post::where('idsection', $post->idsection)
             ->where('id', '!=', $id)

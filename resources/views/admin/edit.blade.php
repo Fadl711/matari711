@@ -56,10 +56,20 @@
                     <select name="section_id"
                         class="w-full rounded-xl border-cream-300 focus:border-primary-500 focus:ring focus:ring-primary-200"
                         required>
-                        @foreach ($sections as $section)
-                            <option value="{{ $section->id }}" {{ $post->idsection == $section->id ? 'selected' : '' }}>
-                                {{ $section->name }}
-                            </option>
+                        <option value="">اختر القسم</option>
+                        @foreach ($sections->whereNull('parent_id') as $section)
+                            <optgroup label="{{ $section->name }}">
+                                <option value="{{ $section->id }}"
+                                    {{ old('section_id', $post->idsection) == $section->id ? 'selected' : '' }}>
+                                    {{ $section->name }} (رئيسي)
+                                </option>
+                                @foreach ($sections->where('parent_id', $section->id) as $child)
+                                    <option value="{{ $child->id }}"
+                                        {{ old('section_id', $post->idsection) == $child->id ? 'selected' : '' }}>
+                                        &nbsp;&nbsp;↳ {{ $child->name }}
+                                    </option>
+                                @endforeach
+                            </optgroup>
                         @endforeach
                     </select>
                 </div>
@@ -230,6 +240,26 @@
     @endpush
 
     @push('scripts')
+        <style>
+            .ql-editor {
+                direction: rtl;
+                text-align: right;
+                font-family: 'Tajawal', sans-serif;
+            }
+
+            .ql-editor.ql-blank::before {
+                left: auto !important;
+                right: 15px !important;
+                text-align: right;
+                direction: rtl;
+            }
+
+            .ql-toolbar {
+                direction: ltr;
+                /* أزرار التحكم تبقى يسار لليمين أفضل تقنياً */
+                text-align: right;
+            }
+        </style>
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
         <script>
             // تهيئة محرر النصوص Quill
@@ -269,6 +299,10 @@
                     ]
                 }
             });
+
+            // جعل الاتجاه افتراضياً من اليمين لليسار
+            quill.format('direction', 'rtl');
+            quill.format('align', 'right');
 
             // عند إرسال الفورم، انقل المحتوى للـ hidden input
             document.querySelector('form[action*="posts"]').addEventListener('submit', function() {

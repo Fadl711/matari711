@@ -13,7 +13,7 @@
             </div>
 
             <!-- القائمة للشاشات الكبيرة -->
-            <div class="hidden lg:flex flex-wrap items-center gap-1 xl:gap-2">
+            <div class="hidden lg:flex items-center gap-0.5 xl:gap-2">
                 <a href="{{ route('home') }}"
                     class="px-2 xl:px-4 py-2 text-sm xl:text-base text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-1 xl:gap-2">
                     <i class="fas fa-home text-sm hidden xl:inline-block"></i>
@@ -115,7 +115,7 @@
                 @endif
 
                 <a href="{{ route('about') }}"
-                    class="px-2 xl:px-4 py-2 text-sm xl:text-base text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-1 xl:gap-2">
+                    class="px-2 xl:px-4 py-2 text-sm xl:text-base text-white hover:bg-primary-600 rounded-lg transition-colors duration-200 flex items-center gap-1 xl:gap-2 whitespace-nowrap">
                     <i class="fas fa-user-graduate text-sm hidden xl:inline-block"></i>
                     <span>تعريف بالشيخ</span>
                 </a>

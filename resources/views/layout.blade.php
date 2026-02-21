@@ -8,10 +8,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Primary Meta Tags -->
-    <title>@yield('title', 'الشيخ الدكتور محمد المطري - موقع رسمي للعلوم الشرعية')</title>
-    <meta name="title" content="@yield('meta_title', 'الشيخ الدكتور محمد المطري - موقع رسمي للعلوم الشرعية')">
+    <title>@yield('title', 'الشيخ الدكتور محمد بن جميل المطري - موقع رسمي للعلوم الشرعية')</title>
+    <meta name="title" content="@yield('meta_title', 'الشيخ الدكتور محمد بن جميل المطري - موقع رسمي للعلوم الشرعية')">
     <meta name="description" content="@yield('meta_description', 'الموقع الرسمي للشيخ الدكتور محمد بن علي بن جميل المطري - متخصص في التفسير وعلوم القرآن - فتاوى ودروس ومقالات إسلامية')">
-    <meta name="keywords" content="@yield('meta_keywords', 'محمد المطري، الشيخ المطري، دكتور محمد المطري، التفسير، علوم القرآن، الفقه، العقيدة، فتاوى إسلامية، دروس دينية، محاضرات إسلامية، كتب إسلامية')">
+    <meta name="keywords" content="@yield('meta_keywords', 'محمد المطري، الشيخ محمد بن جميل المطري ، دكتور محمد المطري، التفسير، علوم القرآن، الفقه، العقيدة، فتاوى إسلامية، دروس دينية، محاضرات إسلامية، كتب إسلامية')">
     <meta name="author" content="الشيخ الدكتور محمد بن علي بن جميل المطري">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
@@ -30,18 +30,18 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('og_title', 'الشيخ الدكتور محمد المطري')">
-    <meta property="og:description" content="@yield('og_description', 'الموقع الرسمي للشيخ الدكتور محمد المطري - علوم شرعية وفتاوى دينية')">
+    <meta property="og:title" content="@yield('og_title', 'الشيخ الدكتور محمد بن جميل المطري')">
+    <meta property="og:description" content="@yield('og_description', 'الموقع الرسمي للشيخ الدكتور محمد بن جميل المطري - علوم شرعية وفتاوى دينية')">
     <meta property="og:image" content="@yield('og_image', asset('R.png'))">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="ar_SA">
-    <meta property="og:site_name" content="موقع الشيخ محمد المطري">
+    <meta property="og:site_name" content="الشيخ الدكتور محمد بن جميل المطري">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ url()->current() }}">
-    <meta name="twitter:title" content="@yield('twitter_title', 'الشيخ الدكتور محمد المطري')">
+    <meta name="twitter:title" content="@yield('twitter_title', 'الشيخ الدكتور محمد بن جميل المطري')">
     <meta name="twitter:description" content="@yield('twitter_description', 'موقع رسمي للعلوم الشرعية والفتاوى الدينية')">
     <meta name="twitter:image" content="@yield('twitter_image', asset('R.png'))">
 
@@ -72,21 +72,25 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "محمد بن علي بن جميل المطري",
-        "jobTitle": "دكتور في التفسير وعلوم القرآن",
-        "url": "{{ url('/') }}",
-        "email": "Matari63@Hotmail.com",
-        "telephone": "+967777175927",
-        "sameAs": [
-            "https://www.facebook.com/people/%D9%85%D8%AD%D9%85%D8%AF-%D8%A7%D9%84%D9%85%D8%B7%D8%B1%D9%8A-%D8%A3%D8%A8%D9%88-%D8%A7%D9%84%D8%AD%D8%A7%D8%B1%D8%AB/100001945734611/",
-            "https://wa.me/967777175927"
-        ],
-        "alumniOf": {
-            "@type": "Organization",
-            "name": "جامعة المدينة العالمية بماليزيا"
-        },
-        "knowsAbout": ["التفسير", "علوم القرآن", "الفقه الإسلامي", "العقيدة", "الحديث النبوي"]
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "name": "الشيخ الدكتور محمد بن جميل المطري",
+                "alternateName": ["د. محمد بن جميل المطري", "الموقع الرسمي للشيخ محمد بن جميل المطري"],
+                "url": "{{ url('/') }}",
+                "inLanguage": "ar"
+            },
+            {
+                "@type": "Person",
+                "name": "الشيخ الدكتور محمد بن جميل المطري",
+                "url": "{{ url('/') }}",
+                "sameAs": [
+                    "https://t.me/Matari63",
+                    "https://www.youtube.com/channel/UCBK-wRq3_Xkp3K3Rl01FN3Q",
+                    "https://wa.me/967777175927"
+                ]
+            }
+        ]
     }
     </script>
 

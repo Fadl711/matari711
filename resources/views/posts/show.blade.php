@@ -14,6 +14,60 @@
 @section('twitter_description', Str::limit(strip_tags($post->body), 200))
 @section('twitter_image', $post->imgart ? asset('uploads/images/' . $post->imgart) : asset('R.png'))
 
+@push('head')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Article",
+                "headline": "{{ str_replace('"', '\"', $post->title) }}",
+                "image": "{{ $post->image ? $post->image : asset('R.png') }}",
+                "author": {
+                    "@type": "Person",
+                    "name": "الشيخ الدكتور محمد بن جميل المطري",
+                    "url": "{{ url('/') }}"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "الشيخ الدكتور محمد المطري",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "{{ asset('R.png') }}"
+                    }
+                },
+                "datePublished": "{{ $post->created_at->toIso8601String() }}",
+                "dateModified": "{{ $post->updated_at->toIso8601String() }}",
+                "description": "{{ str_replace('"', '\"', Str::limit(strip_tags($post->body), 160)) }}",
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "{{ url()->current() }}"
+                }
+            }
+            @if($post->fileVid || $post->link_video),
+            {
+                "@type": "VideoObject",
+                "name": "{{ str_replace('"', '\"', $post->title) }}",
+                "description": "{{ str_replace('"', '\"', Str::limit(strip_tags($post->body), 160)) }}",
+                "thumbnailUrl": "{{ $post->image ? $post->image : asset('R.png') }}",
+                "uploadDate": "{{ $post->created_at->toIso8601String() }}",
+                "contentUrl": "{{ $post->link_video ? 'https://www.youtube.com/watch?v=' . $post->link_video : ($post->fileVid ? asset('uploads/videos/' . $post->fileVid) : '') }}"
+            }
+            @endif
+            @if($post->fileAud),
+            {
+                "@type": "AudioObject",
+                "name": "{{ str_replace('"', '\"', $post->title) }}",
+                "description": "{{ str_replace('"', '\"', Str::limit(strip_tags($post->body), 160)) }}",
+                "contentUrl": "{{ asset('uploads/audio/' . $post->fileAud) }}",
+                "uploadDate": "{{ $post->created_at->toIso8601String() }}"
+            }
+            @endif
+        ]
+    }
+    </script>
+@endpush
+
 @section('content')
     <!-- رأس المنشور -->
     <section class="islamic-gradient py-8 md:py-12">

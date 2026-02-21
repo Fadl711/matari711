@@ -358,6 +358,25 @@
     @endpush
 
     @push('scripts')
+        <style>
+            .ql-editor {
+                direction: rtl;
+                text-align: right;
+                font-family: 'Tajawal', sans-serif;
+            }
+
+            .ql-editor.ql-blank::before {
+                left: auto !important;
+                right: 15px !important;
+                text-align: right;
+                direction: rtl;
+            }
+
+            .ql-toolbar {
+                direction: ltr;
+                text-align: right;
+            }
+        </style>
         <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
         <script>
             // تهيئة محرر النصوص Quill
