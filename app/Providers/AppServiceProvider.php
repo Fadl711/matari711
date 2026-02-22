@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Contracts\View\View;
+use App\Models\Post;
+use App\Observers\PostObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        
+        // تسجيل Observer للمنشورات - يرسل رابط المنشور لمحركات البحث فوراً عند النشر أو التعديل
+        Post::observe(PostObserver::class);
     }
 }
