@@ -11,7 +11,7 @@
     <title>@yield('title', 'الشيخ الدكتور محمد بن جميل المطري - موقع رسمي للعلوم الشرعية')</title>
     <meta name="title" content="@yield('meta_title', 'الشيخ الدكتور محمد بن جميل المطري - موقع رسمي للعلوم الشرعية')">
     <meta name="description" content="@yield('meta_description', 'الموقع الرسمي للشيخ الدكتور محمد بن علي بن جميل المطري - متخصص في التفسير وعلوم القرآن - فتاوى ودروس ومقالات إسلامية')">
-    <meta name="keywords" content="@yield('meta_keywords', 'محمد المطري، الشيخ محمد بن جميل المطري ، دكتور محمد المطري، التفسير، علوم القرآن، الفقه، العقيدة، فتاوى إسلامية، دروس دينية، محاضرات إسلامية، كتب إسلامية')">
+    <meta name="keywords" content="@yield('meta_keywords', 'محمد بن علي بن جميل المطري، محمد المطري، دكتور محمد المطري، التفسير، علوم القرآن، الفقه، العقيدة، فتاوى إسلامية، دروس دينية، محاضرات إسلامية، كتب إسلامية')">
     <meta name="author" content="الشيخ الدكتور محمد بن علي بن جميل المطري">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
@@ -36,7 +36,7 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="ar_SA">
-    <meta property="og:site_name" content="الشيخ الدكتور محمد بن جميل المطري">
+    <meta property="og:site_name" content="الشيخ الدكتور محمد بن علي بن جميل المطري">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -75,8 +75,12 @@
         "@graph": [
             {
                 "@type": "WebSite",
-                "name": "الشيخ الدكتور محمد بن جميل المطري",
-                "alternateName": ["د. محمد بن جميل المطري", "الموقع الرسمي للشيخ محمد بن جميل المطري"],
+                "name": "الشيخ الدكتور محمد بن علي بن جميل المطري",
+                "alternateName": [
+                    "الشيخ محمد بن علي بن جميل المطري",
+                    "د. محمد المطري",
+                    "الموقع الرسمي للشيخ محمد المطري"
+                ],
                 "url": "{{ url('/') }}",
                 "inLanguage": "ar"
             },

@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title', $post->title)
-@section('meta_title', $post->title . ' - الشيخ الدكتور محمد المطري')
+@section('meta_title', $post->title . ' - الشيخ الدكتور محمد بن علي بن جميل المطري')
 @section('meta_description', Str::limit(strip_tags($post->body), 160))
 @section('meta_keywords', $post->section->name . '، الشيخ المطري، ' . str_replace(' ', '، ', $post->title))
 
@@ -25,12 +25,12 @@
                 "image": "{{ $post->image ? $post->image : asset('R.png') }}",
                 "author": {
                     "@type": "Person",
-                    "name": "الشيخ الدكتور محمد بن جميل المطري",
+                    "name": "الشيخ الدكتور محمد بن علي بن جميل المطري",
                     "url": "{{ url('/') }}"
                 },
                 "publisher": {
                     "@type": "Organization",
-                    "name": "الشيخ الدكتور محمد المطري",
+                    "name": "الشيخ الدكتور محمد بن علي بن جميل المطري",
                     "logo": {
                         "@type": "ImageObject",
                         "url": "{{ asset('R.png') }}"
