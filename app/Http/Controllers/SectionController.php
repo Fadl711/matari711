@@ -95,6 +95,7 @@ class SectionController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:sections,id',
+            'default_image' => 'nullable|image|max:10240',
         ]);
 
         $section = Section::findOrFail($id);
@@ -104,10 +105,30 @@ class SectionController extends Controller
             return back()->with('error', 'لا يمكن أن يكون القسم أباً لنفسه');
         }
 
-        $section->update([
+        $data = [
             'section_Name' => $request->name,
             'parent_id' => $request->parent_id,
-        ]);
+        ];
+
+        if ($request->has('remove_image')) {
+            if ($section->default_image && file_exists(public_path('uploads/sections/' . $section->default_image))) {
+                @unlink(public_path('uploads/sections/' . $section->default_image));
+            }
+            $data['default_image'] = null;
+        } elseif ($request->hasFile('default_image')) {
+            $file = $request->file('default_image');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/sections'), $filename);
+
+            // Delete old one if exists (Optional but good)
+            if ($section->default_image && file_exists(public_path('uploads/sections/' . $section->default_image))) {
+                @unlink(public_path('uploads/sections/' . $section->default_image));
+            }
+
+            $data['default_image'] = $filename;
+        }
+
+        $section->update($data);
 
         return back()->with('success', 'تم تحديث القسم بنجاح');
     }

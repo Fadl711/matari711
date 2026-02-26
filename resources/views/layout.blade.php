@@ -8,8 +8,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Primary Meta Tags -->
-    <title>@yield('title', 'الشيخ الدكتور محمد بن جميل المطري - موقع رسمي للعلوم الشرعية')</title>
-    <meta name="title" content="@yield('meta_title', 'الشيخ الدكتور محمد بن جميل المطري - موقع رسمي للعلوم الشرعية')">
+    <title>@yield('title', 'الشيخ الدكتور محمد بن علي بن جميل المطري - الموقع الرسمي')</title>
+    <meta name="title" content="@yield('meta_title', 'الشيخ الدكتور محمد بن علي بن جميل المطري - الموقع الرسمي')">
     <meta name="description" content="@yield('meta_description', 'الموقع الرسمي للشيخ الدكتور محمد بن علي بن جميل المطري - متخصص في التفسير وعلوم القرآن - فتاوى ودروس ومقالات إسلامية')">
     <meta name="keywords" content="@yield('meta_keywords', 'محمد بن علي بن جميل المطري، محمد المطري، دكتور محمد المطري، التفسير، علوم القرآن، الفقه، العقيدة، فتاوى إسلامية، دروس دينية، محاضرات إسلامية، كتب إسلامية')">
     <meta name="author" content="الشيخ الدكتور محمد بن علي بن جميل المطري">

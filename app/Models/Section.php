@@ -14,6 +14,7 @@ class Section extends Model
         'parent_id',
         'icon',
         'sort_order',
+        'default_image',
     ];
 
     /**

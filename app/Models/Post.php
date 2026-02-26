@@ -98,6 +98,19 @@ class Post extends Model
             // مسار افتراضي
             return asset('uploads/images/' . $this->imgart);
         }
+
+        // استخدام الصورة الافتراضية للقسم إذا كانت موجودة
+        if ($this->section && $this->section->default_image) {
+            $default = $this->section->default_image;
+            if (str_starts_with($default, 'http')) {
+                return $default;
+            }
+            if (file_exists(public_path('uploads/sections/' . $default))) {
+                return asset('uploads/sections/' . $default);
+            }
+            return asset('uploads/sections/' . $default);
+        }
+
         return null;
     }
 

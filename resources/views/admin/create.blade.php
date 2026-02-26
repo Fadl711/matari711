@@ -201,13 +201,38 @@
 
                                 <!-- فورم تعديل الاسم -->
                                 <form action="{{ route('admin.sections.update', $section->id) }}" method="POST"
-                                    class="flex-grow flex gap-2 w-full items-center">
+                                    class="flex-grow flex gap-2 w-full items-center" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
-                                    <i class="fas fa-folder text-primary-500"></i>
+                                    @if ($section->default_image)
+                                        <div class="relative group">
+                                            <img src="{{ asset('uploads/sections/' . $section->default_image) }}"
+                                                class="w-8 h-8 rounded object-cover cursor-pointer"
+                                                title="الصورة الافتراضية للقسم" alt="صورة القسم">
+                                            <label
+                                                class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity text-[10px]"
+                                                title="إلغاء الصورة">
+                                                <input type="checkbox" name="remove_image" value="1" class="hidden"
+                                                    onchange="this.closest('form').submit()">
+                                                <i class="fas fa-times"></i>
+                                            </label>
+                                        </div>
+                                    @else
+                                        <i class="fas fa-folder text-primary-500"></i>
+                                    @endif
                                     <input type="text" name="name" value="{{ $section->name }}"
                                         class="flex-grow rounded-lg border-cream-300 focus:border-primary-500 text-sm py-1.5 font-bold"
                                         required>
+                                    <div class="relative overflow-hidden inline-block"
+                                        title="تغيير الصورة الافتراضية للقسم">
+                                        <button type="button"
+                                            class="bg-cream-100 text-brown-600 px-3 py-1.5 rounded-lg text-sm hover:bg-cream-200 transition-colors whitespace-nowrap">
+                                            <i class="fas fa-image"></i>
+                                        </button>
+                                        <input type="file" name="default_image" accept="image/*"
+                                            class="absolute left-0 top-0 opacity-0 cursor-pointer w-full h-full"
+                                            onchange="this.parentElement.style.backgroundColor='#d1fae5'">
+                                    </div>
                                     <button type="submit"
                                         class="bg-primary-500 text-white px-4 py-1.5 rounded-lg text-sm hover:bg-primary-600 transition-colors whitespace-nowrap">
                                         <i class="fas fa-save ml-1"></i> حفظ
@@ -262,13 +287,38 @@
 
                                             <!-- فورم تعديل الفرعي -->
                                             <form action="{{ route('admin.sections.update', $child->id) }}"
-                                                method="POST" class="flex-grow flex gap-2 w-full items-center">
+                                                method="POST" class="flex-grow flex gap-2 w-full items-center"
+                                                enctype="multipart/form-data">
                                                 @csrf @method('PUT')
                                                 <i class="fas fa-level-up-alt fa-rotate-90 text-brown-300 text-xs"></i>
+                                                @if ($child->default_image)
+                                                    <div class="relative group">
+                                                        <img src="{{ asset('uploads/sections/' . $child->default_image) }}"
+                                                            class="w-6 h-6 rounded object-cover cursor-pointer"
+                                                            title="الصورة الافتراضية للقسم" alt="صورة القسم">
+                                                        <label
+                                                            class="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity text-[8px]"
+                                                            title="إلغاء الصورة">
+                                                            <input type="checkbox" name="remove_image" value="1"
+                                                                class="hidden" onchange="this.closest('form').submit()">
+                                                            <i class="fas fa-times"></i>
+                                                        </label>
+                                                    </div>
+                                                @endif
                                                 <input type="text" name="name" value="{{ $child->name }}"
                                                     class="flex-grow rounded-lg border-cream-300 focus:border-primary-500 text-sm py-1"
                                                     required>
                                                 <input type="hidden" name="parent_id" value="{{ $section->id }}">
+                                                <div class="relative overflow-hidden inline-block"
+                                                    title="تغيير الصورة الافتراضية للقسم">
+                                                    <button type="button"
+                                                        class="bg-cream-100 text-brown-600 px-2 py-1 rounded-lg text-sm hover:bg-cream-200 transition-colors whitespace-nowrap">
+                                                        <i class="fas fa-image text-xs"></i>
+                                                    </button>
+                                                    <input type="file" name="default_image" accept="image/*"
+                                                        class="absolute left-0 top-0 opacity-0 cursor-pointer w-full h-full"
+                                                        onchange="this.parentElement.style.backgroundColor='#d1fae5'">
+                                                </div>
                                                 <button type="submit"
                                                     class="bg-primary-400 text-white px-3 py-1 rounded-lg text-sm hover:bg-primary-500 transition-colors">
                                                     <i class="fas fa-save"></i>

@@ -4,11 +4,9 @@
         <div class="flex justify-between h-16">
             <!-- الشعار -->
             <div class="flex items-center">
-                <a href="{{ route('home') }}" class="flex items-center space-x-2 rtl:space-x-reverse">
-                    <div class="w-10 h-10 bg-gold-500 rounded-full flex items-center justify-center">
-                        <i class="fas fa-mosque text-primary-900 text-lg"></i>
-                    </div>
-                    <span class="text-white font-bold text-sm md:text-base lg:text-lg">د.محمد بن جميل المطري</span>
+                <a href="{{ route('home') }}" class="flex items-center">
+                    <img src="{{ asset('name.png') }}" alt="د.محمد بن جميل المطري"
+                        class="h-10 md:h-12 lg:h-14 w-auto object-contain py-1">
                 </a>
             </div>
 
