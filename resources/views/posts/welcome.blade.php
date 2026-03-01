@@ -42,7 +42,8 @@
                         كتب ومقالات وفتاوى ودروس صوتية ومرئية
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <a href="#sections"
+                        @php $booksSectionId = \App\Models\Section::where('section_Name', 'like', '%كتب%')->value('id'); @endphp
+                        <a href="{{ $booksSectionId ? route('posts.section', $booksSectionId) : '#sections' }}"
                             class="inline-flex items-center justify-center gap-2 bg-gold-500 text-primary-900 px-8 py-3 rounded-full font-bold hover:bg-gold-400 transition-all duration-300 transform hover:scale-105 shadow-lg">
                             <i class="fas fa-book-open"></i>
                             <span>تصفح المحتوى</span>
