@@ -73,24 +73,31 @@
         "@graph": [
             {
                 "@type": "WebSite",
+                "@id": "{{ url('/') }}/#website",
+                "url": "{{ url('/') }}",
                 "name": "الشيخ الدكتور محمد بن علي بن جميل المطري",
                 "alternateName": [
-                    "الشيخ محمد بن علي بن جميل المطري",
+                    "الشيخ محمد بن علي المطري",
                     "د. محمد المطري",
                     "الموقع الرسمي للشيخ محمد المطري"
                 ],
-                "url": "{{ url('/') }}",
+                "publisher": {
+                    "@id": "{{ url('/') }}/#person"
+                },
                 "inLanguage": "ar"
             },
             {
                 "@type": "Person",
-                "name": "الشيخ الدكتور محمد بن جميل المطري",
+                "@id": "{{ url('/') }}/#person",
+                "name": "محمد بن علي بن جميل المطري",
+                "jobTitle": "الدكتوراه في الشريعة الإسلامية ومتخصص في التفسير وعلوم القرآن",
                 "url": "{{ url('/') }}",
                 "sameAs": [
                     "https://t.me/Matari63",
                     "https://www.youtube.com/channel/UCBK-wRq3_Xkp3K3Rl01FN3Q",
                     "https://wa.me/967777175927"
-                ]
+                ],
+                "image": "{{ asset('web-app-manifest-512x512.png') }}"
             }
         ]
     }
