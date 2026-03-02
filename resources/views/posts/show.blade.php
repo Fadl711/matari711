@@ -7,22 +7,23 @@
 
 @section('og_title', $post->title)
 @section('og_description', Str::limit(strip_tags($post->body), 200))
-@section('og_image', $post->imgart ? asset('uploads/images/' . $post->imgart) : asset('R.png'))
+@section('og_image', $post->imgart ? asset('uploads/images/' . $post->imgart) : asset('web-app-manifest-512x512.png'))
 @section('og_type', 'article')
 
 @section('twitter_title', $post->title)
 @section('twitter_description', Str::limit(strip_tags($post->body), 200))
-@section('twitter_image', $post->imgart ? asset('uploads/images/' . $post->imgart) : asset('R.png'))
+@section('twitter_image', $post->imgart ? asset('uploads/images/' . $post->imgart) :
+    asset('web-app-manifest-512x512.png'))
 
-@push('head')
-    <script type="application/ld+json">
+    @push('head')
+        <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@graph": [
             {
                 "@type": "Article",
                 "headline": "{{ str_replace('"', '\"', $post->title) }}",
-                "image": "{{ $post->image ? $post->image : asset('R.png') }}",
+                "image": "{{ $post->image ? $post->image : asset('web-app-manifest-512x512.png') }}",
                 "author": {
                     "@type": "Person",
                     "name": "الشيخ الدكتور محمد بن علي بن جميل المطري",
@@ -33,7 +34,7 @@
                     "name": "الشيخ الدكتور محمد بن علي بن جميل المطري",
                     "logo": {
                         "@type": "ImageObject",
-                        "url": "{{ asset('R.png') }}"
+                        "url": "{{ asset('web-app-manifest-512x512.png') }}"
                     }
                 },
                 "datePublished": "{{ $post->created_at->toIso8601String() }}",
@@ -49,7 +50,7 @@
                 "@type": "VideoObject",
                 "name": "{{ str_replace('"', '\"', $post->title) }}",
                 "description": "{{ str_replace('"', '\"', Str::limit(strip_tags($post->body), 160)) }}",
-                "thumbnailUrl": "{{ $post->image ? $post->image : asset('R.png') }}",
+                "thumbnailUrl": "{{ $post->image ? $post->image : asset('web-app-manifest-512x512.png') }}",
                 "uploadDate": "{{ $post->created_at->toIso8601String() }}",
                 "contentUrl": "{{ $post->link_video ? 'https://www.youtube.com/watch?v=' . $post->link_video : ($post->fileVid ? asset('uploads/videos/' . $post->fileVid) : '') }}"
             }
@@ -66,7 +67,7 @@
         ]
     }
     </script>
-@endpush
+    @endpush
 
 @section('content')
     <!-- رأس المنشور -->

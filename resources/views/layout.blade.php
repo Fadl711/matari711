@@ -32,9 +32,7 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="@yield('og_title', 'الشيخ الدكتور محمد بن جميل المطري')">
     <meta property="og:description" content="@yield('og_description', 'الموقع الرسمي للشيخ الدكتور محمد بن جميل المطري - علوم شرعية وفتاوى دينية')">
-    <meta property="og:image" content="@yield('og_image', asset('R.png'))">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:image" content="@yield('og_image', asset('web-app-manifest-512x512.png'))">
     <meta property="og:locale" content="ar_SA">
     <meta property="og:site_name" content="الشيخ الدكتور محمد بن علي بن جميل المطري">
 

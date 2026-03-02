@@ -11,7 +11,7 @@
 
 @section('og_title', 'الشيخ الدكتور محمد بن علي بن جميل المطري - الموقع الرسمي')
 @section('og_description', 'موقع علمي دعوي شامل للشيخ الدكتور محمد بن علي بن جميل المطري لنشر العلم الشرعي الصحيح.')
-@section('og_image', asset('R.png'))
+@section('og_image', asset('web-app-manifest-512x512.png'))
 
 @section('content')
     <!-- Hero Section -->
