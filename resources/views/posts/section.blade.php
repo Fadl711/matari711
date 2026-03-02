@@ -95,7 +95,7 @@
                             <!-- صورة المنشور -->
                             <div class="relative h-48 sm:h-52 overflow-hidden bg-gray-100">
                                 @if ($post->image)
-                                    <img src="{{ $post->image }}" alt="{{ $post->title }}"
+                                    <img loading="lazy" src="{{ $post->image }}" alt="{{ $post->title }}"
                                         class="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500">
                                 @else
                                     <div class="w-full h-full bg-primary-600 flex items-center justify-center">

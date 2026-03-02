@@ -22,28 +22,27 @@
             <!-- روابط سريعة -->
             <div class="text-center">
                 <h4 class="text-lg font-bold mb-4 text-gold-400">روابط سريعة</h4>
-                <ul class="space-y-2">
-                    <li>
-                        <a href="{{ route('home') }}" class="text-primary-200 hover:text-gold-400 transition-colors">
-                            الصفحة الرئيسية
+                <ul class="flex flex-wrap justify-center gap-x-3 gap-y-2 text-sm max-w-sm mx-auto">
+                    <li class="w-[45%] text-right sm:text-center">
+                        <a href="{{ route('home') }}"
+                            class="text-primary-200 hover:text-gold-400 transition-colors block">
+                            الرئيسية
                         </a>
                     </li>
                     @php
-                        $footerSections = \App\Models\Section::whereNull('parent_id')
-                            ->orderBy('sort_order')
-                            ->take(4)
-                            ->get();
+                        $footerSections = \App\Models\Section::whereNull('parent_id')->orderBy('sort_order')->get();
                     @endphp
                     @foreach ($footerSections as $section)
-                        <li>
+                        <li class="w-[45%] text-right sm:text-center">
                             <a href="{{ route('posts.section', $section->id) }}"
-                                class="text-primary-200 hover:text-gold-400 transition-colors">
+                                class="text-primary-200 hover:text-gold-400 transition-colors block">
                                 {{ $section->name }}
                             </a>
                         </li>
                     @endforeach
-                    <li>
-                        <a href="{{ route('about') }}" class="text-primary-200 hover:text-gold-400 transition-colors">
+                    <li class="w-[45%] text-right sm:text-center">
+                        <a href="{{ route('about') }}"
+                            class="text-primary-200 hover:text-gold-400 transition-colors block">
                             تعريف بالشيخ
                         </a>
                     </li>

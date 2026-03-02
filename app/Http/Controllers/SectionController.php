@@ -140,6 +140,12 @@ class SectionController extends Controller
     {
         $section = Section::findOrFail($id);
 
+        // منع حذف الأقسام الأساسية للنظام (الموجودة في السِيدر)
+        $seededNames = ['الفتاوى', 'الفتاوى ', 'الكتب', 'الصوتيات', 'الفيديوهات', 'مقالات'];
+        if (in_array($section->id, [1, 2, 3, 4, 5]) || in_array(trim($section->section_Name), $seededNames)) {
+            return back()->with('error', 'عذراً، لا يمكن حذف الأقسام الأساسية للنظام.');
+        }
+
         // حذف جميع البيانات المرتبطة بالمنشورات التابعة للقسم
         foreach ($section->posts as $post) {
             $post->comments()->delete();

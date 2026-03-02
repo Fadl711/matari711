@@ -65,8 +65,9 @@
                         <div class="relative">
                             <div
                                 class="overflow-hidden rounded-3xl border-4 border-gold-400/50 shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-500">
-                                <img src="{{ asset('sheikh-photo.jpg') }}" alt="الشيخ الدكتور محمد المطري"
-                                    class="w-full max-w-md h-auto object-cover" style="max-height: 500px;">
+                                <img fetchpriority="high" src="{{ asset('sheikh-photo.jpg') }}"
+                                    alt="الشيخ الدكتور محمد المطري" class="w-full max-w-md h-auto object-cover"
+                                    style="max-height: 500px;">
                             </div>
                             <div class="absolute -top-6 -right-6 w-24 h-24 bg-gold-500/20 rounded-full blur-2xl"></div>
                             <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-primary-400/20 rounded-full blur-2xl">
@@ -163,7 +164,7 @@
                                         <!-- خلفية مموهة لملء الفراغات -->
                                         <div class="absolute inset-0 scale-110 blur-xl opacity-50 bg-center bg-cover"
                                             style="background-image: url('{{ $post->image }}')"></div>
-                                        <img src="{{ $post->image }}" alt="{{ $post->title }}"
+                                        <img loading="lazy" src="{{ $post->image }}" alt="{{ $post->title }}"
                                             class="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
                                     @else
                                         <div
@@ -451,7 +452,26 @@
                     $totalPosts = \App\Models\Post::count();
                     $totalSections = \App\Models\Section::count();
                     $totalViews = \App\Models\Post::sum('views');
-                    $totalAudio = \App\Models\Post::whereNotNull('fileAud')->count();
+
+                    // جلب الأقسام المطلوبة (الصوتيات والفيديوهات)
+                    $targetSections = \App\Models\Section::whereIn('section_Name', [
+                        'الصوتيات',
+                        'الفيديوهات',
+                        'صوتيات',
+                        'فيديوهات',
+                    ])
+                        ->pluck('id')
+                        ->toArray();
+                    if (empty($targetSections)) {
+                        $targetSections = [2, 3, 4];
+                    }
+
+                    // دمج أقسامهم الفرعية إن وجدت
+                    $childSections = \App\Models\Section::whereIn('parent_id', $targetSections)->pluck('id')->toArray();
+                    $allTargetSectionIds = array_unique(array_merge($targetSections, $childSections));
+
+                    // حساب المنشورات الموجودة بداخل هذه الأقسام فقط
+                    $totalAudioVideo = \App\Models\Post::whereIn('idsection', $allTargetSectionIds)->count();
                 @endphp
 
                 <div
@@ -473,8 +493,8 @@
                 </div>
                 <div
                     class="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/15 transition-colors">
-                    <div class="text-3xl md:text-4xl font-bold text-gold-400 mb-2">{{ $totalAudio }}</div>
-                    <div class="text-primary-100 text-sm">مادة صوتية</div>
+                    <div class="text-3xl md:text-4xl font-bold text-gold-400 mb-2">{{ $totalAudioVideo }}</div>
+                    <div class="text-primary-100 text-sm">صوتية ومرئية</div>
                 </div>
             </div>
         </div>

@@ -151,7 +151,8 @@
                 <!-- صورة المنشور -->
                 @if ($post->image)
                     <div class="relative h-64 md:h-96 bg-gray-100">
-                        <img src="{{ $post->image }}" alt="{{ $post->title }}" class="w-full h-full object-contain">
+                        <img fetchpriority="high" src="{{ $post->image }}" alt="{{ $post->title }}"
+                            class="w-full h-full object-contain">
                     </div>
                 @else
                     <div
@@ -270,7 +271,7 @@
                                 class="bg-white rounded-xl overflow-hidden shadow-lg card-hover group">
                                 <div class="h-32 overflow-hidden bg-gray-100">
                                     @if ($related->image)
-                                        <img src="{{ $related->image }}" alt="{{ $related->title }}"
+                                        <img loading="lazy" src="{{ $related->image }}" alt="{{ $related->title }}"
                                             class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
                                     @else
                                         <div class="w-full h-full bg-primary-600 flex items-center justify-center">
