@@ -5,7 +5,7 @@
             <!-- الشعار -->
             <div class="flex items-center shrink-0">
                 <a href="{{ route('home') }}" class="flex items-center">
-                    <img src="{{ asset('name.png') }}" alt="د.محمد بن جميل المطري"
+                    <img src="{{ asset('name.webp') }}" alt="د.محمد بن جميل المطري"
                         class="h-10 md:h-12 lg:h-14 w-auto object-contain py-1">
                 </a>
             </div>

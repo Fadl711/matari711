@@ -115,6 +115,34 @@
             scroll-behavior: smooth;
         }
 
+        /* تخصيص شريط التمرير (Scrollbar) */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #faf7f2;
+            /* لون الخلفية الكريمي للموقع */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #0d6f5a;
+            /* اللون الأخضر الأساسي */
+            border-radius: 20px;
+            border: 2px solid #faf7f2;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #094d3f;
+            /* درجة أغمق عند التأشير */
+        }
+
+        /* لمتصفح فايرفوكس */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #0d6f5a #faf7f2;
+        }
+
         /* أنماط البطاقات */
         .card-hover {
             transition: all 0.3s ease;

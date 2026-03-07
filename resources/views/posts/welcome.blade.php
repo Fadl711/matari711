@@ -65,7 +65,7 @@
                         <div class="relative">
                             <div
                                 class="overflow-hidden rounded-3xl border-4 border-gold-400/50 shadow-2xl transform group-hover:scale-[1.02] transition-transform duration-500">
-                                <img fetchpriority="high" src="{{ asset('sheikh-photo.jpg') }}"
+                                <img fetchpriority="high" src="{{ asset('sheikh-photo.webp') }}"
                                     alt="الشيخ الدكتور محمد المطري" class="w-full max-w-md h-auto object-cover"
                                     style="max-height: 500px;">
                             </div>
@@ -283,23 +283,23 @@
                                         </div>
                                     @endif
                                     {{-- نوع المحتوى --}}
-                                    <div class="absolute bottom-4 right-4 flex gap-2">
+                                    <div class="absolute top-4 left-4 flex flex-col gap-2 z-20">
                                         @if ($sectionPosts[0]->fileAud)
                                             <span
-                                                class="bg-black/50 backdrop-blur-sm text-white px-2.5 py-1 rounded-lg text-xs">
-                                                <i class="fas fa-headphones"></i>
+                                                class="bg-primary-600/80 backdrop-blur-md text-white w-8 h-8 rounded-lg flex items-center justify-center shadow-lg border border-white/20">
+                                                <i class="fas fa-headphones text-xs"></i>
                                             </span>
                                         @endif
                                         @if ($sectionPosts[0]->fileVid || $sectionPosts[0]->link_video)
                                             <span
-                                                class="bg-black/50 backdrop-blur-sm text-white px-2.5 py-1 rounded-lg text-xs">
-                                                <i class="fas fa-play"></i>
+                                                class="bg-red-600/80 backdrop-blur-md text-white w-8 h-8 rounded-lg flex items-center justify-center shadow-lg border border-white/20">
+                                                <i class="fas fa-play text-xs"></i>
                                             </span>
                                         @endif
                                         @if ($sectionPosts[0]->books)
                                             <span
-                                                class="bg-black/50 backdrop-blur-sm text-white px-2.5 py-1 rounded-lg text-xs">
-                                                <i class="fas fa-book"></i>
+                                                class="bg-gold-600/80 backdrop-blur-md text-white w-8 h-8 rounded-lg flex items-center justify-center shadow-lg border border-white/20">
+                                                <i class="fas fa-book text-xs"></i>
                                             </span>
                                         @endif
                                     </div>
@@ -350,10 +350,31 @@
                                             @endif
                                             @if ($post->is_pinned)
                                                 <div
-                                                    class="absolute top-2 right-2 bg-gold-500 text-primary-900 w-6 h-6 rounded-full flex items-center justify-center shadow">
+                                                    class="absolute top-2 right-2 bg-gold-500 text-primary-900 w-6 h-6 rounded-full flex items-center justify-center shadow z-20">
                                                     <i class="fas fa-thumbtack text-[10px]"></i>
                                                 </div>
                                             @endif
+                                            {{-- نوع المحتوى --}}
+                                            <div class="absolute top-2 left-2 flex flex-col gap-1 z-20">
+                                                @if ($post->fileAud)
+                                                    <span
+                                                        class="bg-primary-600/80 backdrop-blur-sm text-white w-5 h-5 rounded-md flex items-center justify-center shadow-sm">
+                                                        <i class="fas fa-headphones text-[9px]"></i>
+                                                    </span>
+                                                @endif
+                                                @if ($post->fileVid || $post->link_video)
+                                                    <span
+                                                        class="bg-red-600/80 backdrop-blur-sm text-white w-5 h-5 rounded-md flex items-center justify-center shadow-sm">
+                                                        <i class="fas fa-play text-[9px]"></i>
+                                                    </span>
+                                                @endif
+                                                @if ($post->books)
+                                                    <span
+                                                        class="bg-gold-600/80 backdrop-blur-sm text-white w-5 h-5 rounded-md flex items-center justify-center shadow-sm">
+                                                        <i class="fas fa-book text-[9px]"></i>
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                         <!-- المحتوى -->
                                         <div class="p-3 flex flex-col justify-center flex-grow min-w-0">
@@ -403,10 +424,31 @@
                                         @endif
                                         @if ($post->is_pinned)
                                             <div
-                                                class="absolute top-4 right-4 bg-gold-500 text-primary-900 px-3 py-1 rounded-full text-xs font-bold">
+                                                class="absolute top-4 right-4 bg-gold-500 text-primary-900 px-3 py-1 rounded-full text-xs font-bold z-20">
                                                 <i class="fas fa-thumbtack ml-1"></i> مثبّت
                                             </div>
                                         @endif
+                                        {{-- نوع المحتوى --}}
+                                        <div class="absolute top-4 left-4 flex flex-col gap-2 z-20">
+                                            @if ($post->fileAud)
+                                                <span
+                                                    class="bg-primary-600/80 backdrop-blur-md text-white w-8 h-8 rounded-lg flex items-center justify-center shadow-lg">
+                                                    <i class="fas fa-headphones text-xs"></i>
+                                                </span>
+                                            @endif
+                                            @if ($post->fileVid || $post->link_video)
+                                                <span
+                                                    class="bg-red-600/80 backdrop-blur-md text-white w-8 h-8 rounded-lg flex items-center justify-center shadow-lg">
+                                                    <i class="fas fa-play text-xs"></i>
+                                                </span>
+                                            @endif
+                                            @if ($post->books)
+                                                <span
+                                                    class="bg-gold-600/80 backdrop-blur-md text-white w-8 h-8 rounded-lg flex items-center justify-center shadow-lg">
+                                                    <i class="fas fa-book text-xs"></i>
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
                                     <div class="p-5 flex flex-col flex-grow">
                                         <h3

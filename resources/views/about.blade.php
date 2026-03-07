@@ -3,27 +3,196 @@
 @section('title', 'تعريف بالشيخ - د.محمد بن جميل المطري')
 
 @section('content')
-    <!-- Hero Section -->
-    <section class="relative bg-gradient-to-b from-primary-700 to-primary-600 text-white py-16 md:py-24">
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute inset-0 bg-pattern"></div>
+    <!-- Hero Section - Islamic Classic -->
+    <section class="relative overflow-hidden text-white"
+        style="background: linear-gradient(135deg, #1a4731 0%, #0d3322 40%, #1a4731 100%); min-height: 420px;">
+
+        <!-- زخارف هندسية إسلامية - الخلفية -->
+        <div class="absolute inset-0 opacity-[0.07]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <defs>
+                    <pattern id="islamicPattern" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+                        <!-- نجمة ثمانية الأضلاع -->
+                        <polygon points="60,5 72,35 105,35 80,55 90,88 60,70 30,88 40,55 15,35 48,35" fill="none"
+                            stroke="#c9a55b" stroke-width="1.2" />
+                        <polygon points="60,20 68,42 92,42 73,56 80,80 60,66 40,80 47,56 28,42 52,42" fill="none"
+                            stroke="#c9a55b" stroke-width="0.6" />
+                        <!-- خطوط زخرفية -->
+                        <line x1="0" y1="60" x2="120" y2="60" stroke="#c9a55b"
+                            stroke-width="0.4" stroke-dasharray="4,8" />
+                        <line x1="60" y1="0" x2="60" y2="120" stroke="#c9a55b"
+                            stroke-width="0.4" stroke-dasharray="4,8" />
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#islamicPattern)" />
+            </svg>
         </div>
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="max-w-4xl mx-auto text-center">
-                <div class="mb-6">
-                    <i class="fas fa-mosque text-6xl md:text-7xl text-gold-400 opacity-90"></i>
+
+        <!-- إطار ذهبي علوي وسفلي -->
+        <div class="absolute top-0 left-0 right-0 h-1"
+            style="background: linear-gradient(90deg, transparent, #c9a55b, #f0d080, #c9a55b, transparent);"></div>
+        <div class="absolute bottom-0 left-0 right-0 h-1"
+            style="background: linear-gradient(90deg, transparent, #c9a55b, #f0d080, #c9a55b, transparent);"></div>
+
+        <!-- هلال ونجوم - يمين -->
+        <div class="absolute top-6 right-6 opacity-60">
+            <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- الهلال -->
+                <path d="M55 15 C35 20, 22 38, 28 58 C34 78, 55 88, 72 80 C52 82, 36 68, 32 50 C28 32, 38 16, 55 15Z"
+                    fill="#c9a55b" />
+                <!-- نجمة كبيرة -->
+                <polygon points="75,10 77.5,17 85,17 79,21.5 81.5,29 75,24.5 68.5,29 71,21.5 65,17 72.5,17"
+                    fill="#f0d080" />
+                <!-- نجمة صغيرة -->
+                <polygon points="82,38 83.2,41.5 87,41.5 84,43.5 85.2,47 82,45 78.8,47 80,43.5 77,41.5 80.8,41.5"
+                    fill="#c9a55b" />
+                <!-- نجمة أصغر -->
+                <polygon points="60,5 61,8 64,8 61.5,9.8 62.5,13 60,11.2 57.5,13 58.5,9.8 56,8 59,8" fill="#c9a55b"
+                    opacity="0.8" />
+            </svg>
+        </div>
+
+        <!-- هلال ونجوم - يسار (معكوس) -->
+        <div class="absolute top-6 left-6 opacity-60" style="transform: scaleX(-1);">
+            <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- الهلال -->
+                <path d="M55 15 C35 20, 22 38, 28 58 C34 78, 55 88, 72 80 C52 82, 36 68, 32 50 C28 32, 38 16, 55 15Z"
+                    fill="#c9a55b" />
+                <!-- نجمة كبيرة -->
+                <polygon points="75,10 77.5,17 85,17 79,21.5 81.5,29 75,24.5 68.5,29 71,21.5 65,17 72.5,17"
+                    fill="#f0d080" />
+                <!-- نجمة صغيرة -->
+                <polygon points="82,38 83.2,41.5 87,41.5 84,43.5 85.2,47 82,45 78.8,47 80,43.5 77,41.5 80.8,41.5"
+                    fill="#c9a55b" />
+                <!-- نجمة أصغر -->
+                <polygon points="60,5 61,8 64,8 61.5,9.8 62.5,13 60,11.2 57.5,13 58.5,9.8 56,8 59,8" fill="#c9a55b"
+                    opacity="0.8" />
+            </svg>
+        </div>
+
+        <!-- نجوم متناثرة في الخلفية -->
+        <div class="absolute bottom-8 right-16 opacity-30">
+            <svg width="16" height="16" viewBox="0 0 24 24">
+                <polygon points="12,2 14.5,9 22,9 16,14 18.5,21 12,17 5.5,21 8,14 2,9 9.5,9" fill="#f0d080" />
+            </svg>
+        </div>
+        <div class="absolute bottom-16 right-1/3 opacity-20">
+            <svg width="10" height="10" viewBox="0 0 24 24">
+                <polygon points="12,2 14.5,9 22,9 16,14 18.5,21 12,17 5.5,21 8,14 2,9 9.5,9" fill="#f0d080" />
+            </svg>
+        </div>
+        <div class="absolute bottom-8 left-16 opacity-30">
+            <svg width="14" height="14" viewBox="0 0 24 24">
+                <polygon points="12,2 14.5,9 22,9 16,14 18.5,21 12,17 5.5,21 8,14 2,9 9.5,9" fill="#f0d080" />
+            </svg>
+        </div>
+        <div class="absolute top-1/2 right-12 opacity-20">
+            <svg width="8" height="8" viewBox="0 0 24 24">
+                <polygon points="12,2 14.5,9 22,9 16,14 18.5,21 12,17 5.5,21 8,14 2,9 9.5,9" fill="#c9a55b" />
+            </svg>
+        </div>
+        <div class="absolute top-1/2 left-12 opacity-20">
+            <svg width="8" height="8" viewBox="0 0 24 24">
+                <polygon points="12,2 14.5,9 22,9 16,14 18.5,21 12,17 5.5,21 8,14 2,9 9.5,9" fill="#c9a55b" />
+            </svg>
+        </div>
+
+        <div class="container mx-auto px-4 relative z-10 py-14 md:py-20">
+            <div class="max-w-4xl mx-auto">
+
+                <!-- صورة الشيخ بالإطار الإسلامي الكلاسيكي -->
+                <div class="flex justify-center mb-8">
+                    <div class="relative">
+                        <!-- هالة خارجية ذهبية مضيئة -->
+                        <div class="absolute inset-0 rounded-full blur-2xl opacity-50"
+                            style="background: radial-gradient(circle, #c9a55b 0%, transparent 70%); transform: scale(1.5);">
+                        </div>
+
+                        <!-- إطار مثمن خارجي -->
+                        <div class="relative flex items-center justify-center" style="width: 270px; height: 270px;">
+                            <!-- دائرة ذهبية خارجية متحركة -->
+                            <div class="absolute inset-0 rounded-full border-2 border-dashed opacity-60 animate-spin"
+                                style="border-color: #c9a55b; animation-duration: 20s;"></div>
+                            <!-- دائرة ذهبية وسطى -->
+                            <div class="absolute rounded-full border-4"
+                                style="inset: 10px; border-color: #c9a55b; box-shadow: 0 0 25px rgba(201,165,91,0.4), inset 0 0 25px rgba(201,165,91,0.1);">
+                            </div>
+                            <!-- الصورة -->
+                            <img src="{{ asset('sheikh-photo2.webp') }}" alt="الشيخ الدكتور محمد المطري"
+                                class="rounded-full object-cover border-4 border-white/10 shadow-2xl"
+                                style="width: 220px; height: 220px; object-position: top; position: relative; z-index: 10;">
+                            <!-- نجوم الأركان الأربعة -->
+                            <div class="absolute" style="top:-10px; left:50%; transform:translateX(-50%);">
+                                <svg width="22" height="22" viewBox="0 0 24 24">
+                                    <polygon points="12,2 14.5,9 22,9 16,14 18.5,21 12,17 5.5,21 8,14 2,9 9.5,9"
+                                        fill="#c9a55b" />
+                                </svg>
+                            </div>
+                            <div class="absolute" style="bottom:-10px; left:50%; transform:translateX(-50%);">
+                                <svg width="22" height="22" viewBox="0 0 24 24">
+                                    <polygon points="12,2 14.5,9 22,9 16,14 18.5,21 12,17 5.5,21 8,14 2,9 9.5,9"
+                                        fill="#c9a55b" />
+                                </svg>
+                            </div>
+                            <div class="absolute" style="right:-10px; top:50%; transform:translateY(-50%);">
+                                <svg width="22" height="22" viewBox="0 0 24 24">
+                                    <polygon points="12,2 14.5,9 22,9 16,14 18.5,21 12,17 5.5,21 8,14 2,9 9.5,9"
+                                        fill="#c9a55b" />
+                                </svg>
+                            </div>
+                            <div class="absolute" style="left:-10px; top:50%; transform:translateY(-50%);">
+                                <svg width="22" height="22" viewBox="0 0 24 24">
+                                    <polygon points="12,2 14.5,9 22,9 16,14 18.5,21 12,17 5.5,21 8,14 2,9 9.5,9"
+                                        fill="#c9a55b" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">تعريف بالشيخ</h1>
-                <div class="h-1 w-24 bg-gold-400 mx-auto mb-6"></div>
-                <h2 class="text-2xl md:text-3xl font-semibold text-cream-100">
-                    محمد بن علي بن جميل المطري
-                </h2>
-                <p class="mt-4 text-lg text-cream-200">
-                    دكتوراه في التفسير وعلوم القرآن الكريم
-                </p>
+
+                <!-- العنوان بزخرفة إسلامية -->
+                <div class="text-center">
+                    <!-- خط زخرفي علوي -->
+                    <div class="flex items-center justify-center gap-3 mb-4">
+                        <div class="h-px flex-1 max-w-[80px]"
+                            style="background: linear-gradient(90deg, transparent, #c9a55b);"></div>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <polygon points="12,2 14.5,9 22,9 16,14 18.5,21 12,17 5.5,21 8,14 2,9 9.5,9" fill="#c9a55b" />
+                        </svg>
+                        <div class="h-px flex-1 max-w-[80px]"
+                            style="background: linear-gradient(90deg, #c9a55b, transparent);"></div>
+                    </div>
+
+                    <h1 class="text-4xl md:text-6xl font-bold mb-3"
+                        style="font-family: 'Amiri', 'Scheherazade New', serif; text-shadow: 0 2px 15px rgba(0,0,0,0.3);">
+                        تعريف بالشيخ</h1>
+
+                    <!-- خط فاصل ذهبي -->
+                    <div class="flex items-center justify-center gap-3 my-4">
+                        <div class="h-px flex-1 max-w-[120px]"
+                            style="background: linear-gradient(90deg, transparent, #c9a55b);"></div>
+                        <div class="flex gap-1">
+                            <div class="w-1.5 h-1.5 rounded-full" style="background: #c9a55b;"></div>
+                            <div class="w-2.5 h-2.5 rounded-full" style="background: #f0d080;"></div>
+                            <div class="w-1.5 h-1.5 rounded-full" style="background: #c9a55b;"></div>
+                        </div>
+                        <div class="h-px flex-1 max-w-[120px]"
+                            style="background: linear-gradient(90deg, #c9a55b, transparent);"></div>
+                    </div>
+
+                    <h2 class="text-2xl md:text-3xl font-semibold mb-2"
+                        style="color: #f0d080; text-shadow: 0 1px 8px rgba(0,0,0,0.3);">
+                        محمد بن علي بن جميل المطري
+                    </h2>
+                    <p class="text-lg" style="color: #a8cdb8;">
+                        دكتوراه في التفسير وعلوم القرآن الكريم
+                    </p>
+                </div>
+
             </div>
         </div>
     </section>
+
 
     <!-- Main Content -->
     <section class="py-12 md:py-16 bg-cream-50">
